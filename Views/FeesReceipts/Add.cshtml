@@ -1,0 +1,108 @@
+﻿@model AVADH_PRIME_Consume.Models.FeesReceiptsModel
+
+@{
+    ViewData["Title"] = Model.Receipt_Id == 0 ? "Add Fees Receipt" : "Edit Fees Receipt";
+}
+
+<main id="main" class="main">
+
+    <div class="pagetitle">
+        <h1>@ViewData["Title"]</h1>
+    </div>
+
+    <section class="section">
+        <div class="row">
+            <div class="col-lg-8 mx-auto">
+
+                <div class="card">
+                    <div class="card-body pt-4">
+
+                        <form asp-action="Add" method="post">
+
+                            @Html.AntiForgeryToken()
+
+                            <!-- Hidden ID -->
+                            <input type="hidden" asp-for="Receipt_Id" />
+
+                            <!-- Student ID -->
+                            <div class="mb-3">
+                                <label class="form-label">Student ID</label>
+                                <input asp-for="Student_Id" class="form-control" />
+                                <span asp-validation-for="Student_Id" class="text-danger"></span>
+                            </div>
+
+                            <!-- Fees ID -->
+                            <div class="mb-3">
+                                <label class="form-label">Fees ID</label>
+                                <input asp-for="Fees_Id" class="form-control" />
+                            </div>
+
+                            <!-- Amount -->
+                            <div class="mb-3">
+                                <label class="form-label">Paid Amount</label>
+                                <input asp-for="Paid_Amount" type="number" class="form-control" />
+                            </div>
+
+                            <!-- Payment Mode -->
+                            <div class="mb-3">
+                                <label class="form-label">Payment Mode</label>
+                                <select asp-for="Payment_Mode" class="form-control">
+                                    <option value="">-- Select Mode --</option>
+                                    <option>Cash</option>
+                                    <option>UPI</option>
+                                    <option>Card</option>
+                                    <option>Net Banking</option>
+                                </select>
+                            </div>
+
+                            <!-- Receipt No -->
+                            <div class="mb-3">
+                                <label class="form-label">Receipt Number</label>
+                                <input asp-for="Receipt_No" class="form-control" />
+                            </div>
+
+                            <!-- Payment Date -->
+                            <div class="mb-3">
+                                <label class="form-label">Payment Date</label>
+                                <input asp-for="Payment_Date" type="date" class="form-control" />
+                            </div>
+
+                            <!-- Status -->
+                            <div class="mb-3">
+                                <label class="form-label">Status</label>
+                                <select asp-for="IsActive" class="form-control">
+                                    <option value="true">Active</option>
+                                    <option value="false">Inactive</option>
+                                </select>
+                            </div>
+
+                            <!-- CreatedAt -->
+                            <input type="hidden" asp-for="CreatedAt" value="@DateTime.Now" />
+
+                            <!-- UpdatedAt -->
+                            @if (Model.Receipt_Id != 0)
+                            {
+                                <input type="hidden" asp-for="UpdatedAt" value="@DateTime.Now" />
+                            }
+
+                            <!-- Buttons -->
+                            <div class="text-center mt-4">
+                                <button type="submit" class="btn btn-success">
+                                    @(Model.Receipt_Id == 0 ? "Save" : "Update")
+                                </button>
+
+                                <a asp-action="Index" class="btn btn-secondary ms-2">
+                                    Cancel
+                                </a>
+                            </div>
+
+                        </form>
+
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </section>
+
+</main>

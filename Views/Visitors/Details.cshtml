@@ -1,0 +1,356 @@
+﻿@model AVADH_PRIME_Consume.Models.VisitorsModel
+
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Visitor Profile</title>
+    <link href="~/css/stylesheet.css" rel="stylesheet" />
+</head>
+
+<body>
+
+    <main id="main" class="main">
+
+        <!-- HEADER -->
+        <div class="header-bar">
+            <div class="header-title">VISITOR DETAILS</div>
+
+            <div>
+                <a asp-action="Edit"
+                   asp-route-Visitor_Id="@Model.Visitor_Id"
+                   class="btn">EDIT</a>
+
+                <a asp-action="Index" class="btn">BACK</a>
+            </div>
+        </div>
+
+        <!-- GRID -->
+        <div class="main-grid">
+
+            <!-- 1: PROFILE -->
+            <div class="box student-box">
+                <img src="~/assets/img/warden.png"
+                     class="circle-img"
+                     onerror="this.src='/images/no-image.png';" />
+
+                <div class="student-name">
+                    @Model.First_Name @Model.Last_Name
+                </div>
+
+                <div class="status">
+                    @(Model.Check_Out_Time == null ? "Inside" : "Exited")
+                </div>
+            </div>
+
+            <!-- 2: BASIC INFO -->
+            <div class="box">
+                <div class="title">Basic Info</div>
+                <table class="kv">
+                    <tr><td class="key">ID</td><td class="colon">:</td><td class="value">@Model.Visitor_Id</td></tr>
+                    <tr><td class="key">First</td><td class="colon">:</td><td class="value">@Model.First_Name</td></tr>
+                    <tr><td class="key">Last</td><td class="colon">:</td><td class="value">@Model.Last_Name</td></tr>
+                    <tr><td class="key">Gender</td><td class="colon">:</td><td class="value">@Model.Gender</td></tr>
+                </table>
+            </div>
+
+            <!-- 3: CONTACT -->
+            <div class="box">
+                <div class="title">Contact Info</div>
+                <table class="kv">
+                    <tr><td class="key">Phone</td><td class="colon">:</td><td class="value">@Model.Phone</td></tr>
+                    <tr><td class="key">Email</td><td class="colon">:</td><td class="value">@Model.Email</td></tr>
+                </table>
+            </div>
+
+            <!-- 4: ADDRESS -->
+            <div class="box">
+                <div class="title">Address</div>
+                <table class="kv">
+                    <tr><td class="key">Address</td><td class="colon">:</td><td class="value">@Model.Address</td></tr>
+                    <tr><td class="key">City</td><td class="colon">:</td><td class="value">@Model.City</td></tr>
+                    <tr><td class="key">State</td><td class="colon">:</td><td class="value">@Model.State</td></tr>
+                    <tr><td class="key">Country</td><td class="colon">:</td><td class="value">@Model.Country</td></tr>
+                </table>
+            </div>
+
+            <!-- 5: ID PROOF -->
+            <div class="box">
+                <div class="title">ID Proof</div>
+                <table class="kv">
+                    <tr><td class="key">Type</td><td class="colon">:</td><td class="value">@Model.Id_Proof_Type</td></tr>
+                    <tr><td class="key">Number</td><td class="colon">:</td><td class="value">@Model.Id_Proof_Number</td></tr>
+                </table>
+            </div>
+
+            <!-- 6: VISIT INFO -->
+            <div class="box">
+                <div class="title">Visit Info</div>
+                <table class="kv">
+                    <tr><td class="key">Date</td><td class="colon">:</td><td class="value">@Model.Visit_Date.ToString("dd-MM-yyyy")</td></tr>
+                    <tr><td class="key">Check-In</td><td class="colon">:</td><td class="value">@Model.Check_In_Time.ToString("dd-MM-yyyy HH:mm")</td></tr>
+                    <tr>
+                        <td class="key">Check-Out</td>
+                        <td class="colon">:</td>
+                        <td class="value">
+                            @(Model.Check_Out_Time?.ToString("dd-MM-yyyy HH:mm") ?? "-")
+                        </td>
+                    </tr>
+                </table>
+            </div>
+
+            <!-- 7: PURPOSE -->
+            <div class="box">
+                <div class="title">Purpose</div>
+                <p>@Model.Purpose_Of_Visit</p>
+            </div>
+
+            <!-- 8: MEETING -->
+            <div class="box">
+                <div class="title">Meeting Info</div>
+                <table class="kv">
+                    <tr><td class="key">Person ID</td><td class="colon">:</td><td class="value">@Model.Person_To_Meet_Id</td></tr>
+                    <tr><td class="key">Type</td><td class="colon">:</td><td class="value">@Model.Person_Type</td></tr>
+                </table>
+            </div>
+
+            <!-- 9: VEHICLE -->
+            <div class="box">
+                <div class="title">Vehicle</div>
+                <table class="kv">
+                    <tr><td class="key">Number</td><td class="colon">:</td><td class="value">@Model.Vehicle_Number</td></tr>
+                </table>
+            </div>
+
+            <!-- 10: APPROVAL -->
+            <div class="box">
+                <div class="title">Approval</div>
+                <table class="kv">
+                    <tr><td class="key">Approved</td><td class="colon">:</td><td class="value">@(Model.Is_Approved ? "Yes" : "No")</td></tr>
+                    <tr><td class="key">By</td><td class="colon">:</td><td class="value">@Model.Approved_By</td></tr>
+                </table>
+            </div>
+
+            <!-- 11: AUDIT -->
+            <div class="box">
+                <div class="title">Audit</div>
+                <table class="kv">
+                    <tr><td class="key">Created</td><td class="colon">:</td><td class="value">@Model.Created_At.ToString("dd-MM-yyyy HH:mm")</td></tr>
+                    <tr><td class="key">By</td><td class="colon">:</td><td class="value">@Model.Created_By</td></tr>
+                    <tr>
+                        <td class="key">Updated</td>
+                        <td class="colon">:</td>
+                        <td class="value">@(Model.Updated_At?.ToString("dd-MM-yyyy HH:mm") ?? "-")</td>
+                    </tr>
+                    <tr><td class="key">Updated By</td><td class="colon">:</td><td class="value">@Model.Updated_By</td></tr>
+                </table>
+            </div>
+
+        </div>
+
+    </main>
+
+</body>
+</html>
+
+
+@* @model AVADH_PRIME_Consume.Models.VisitorsModel
+
+<main id="main" class="main">
+
+    <!-- HEADER -->
+    <div class="pagetitle d-flex justify-content-between align-items-center">
+        <div>
+            <h1>Visitor Details</h1>
+            <nav>
+                <ol class="breadcrumb mb-0">
+                    <li class="breadcrumb-item"><a asp-action="Index">Home</a></li>
+                    <li class="breadcrumb-item active">Visitor Profile</li>
+                </ol>
+            </nav>
+        </div>
+
+        <div>
+            <a asp-action="Edit"
+               asp-route-Visitor_Id="@Model.Visitor_Id"
+               class="btn btn-warning">✏️ Edit</a>
+
+            <a asp-action="Index" class="btn btn-secondary">⬅ Back</a>
+        </div>
+    </div>
+
+    <!-- CONTENT -->
+    <section class="section dashboard pt-2">
+        <div class="row">
+
+            <div class="col-12">
+                <div class="card shadow-sm p-4">
+
+                    <!-- TOP HEADER -->
+                    <div class="row align-items-center mb-4">
+
+                        <!-- ICON -->
+                        <div class="col-md-3 text-center">
+                            <img src="~/assets/img/warden.png"
+                                 alt="Warden Image"
+                                 class="rounded-circle"
+                                 style="width:200px; height:200px; object-fit:cover;">
+                        </div>
+
+                        <!-- NAME + BASIC INFO -->
+                        <div class="col-md-9">
+                            <h2 class="fw-bold">
+                                @Model.First_Name @Model.Last_Name
+                            </h2>
+
+                            <div class="card p-3 mt-3 bg-light">
+                                <h5 class="mb-3">Personal Info</h5>
+
+                                <div class="row">
+                                    <div class="col-md-4"><strong>ID:</strong> @Model.Visitor_Id</div>
+                                    <div class="col-md-4"><strong>First Name:</strong> @Model.First_Name</div>
+                                    <div class="col-md-4"><strong>Last Name:</strong> @Model.Last_Name</div>
+
+                                    <div class="col-md-4"><strong>Gender:</strong> @Model.Gender</div>
+                                    <div class="col-md-4"><strong>Phone:</strong> @Model.Phone</div>
+                                    <div class="col-md-4"><strong>Email:</strong> @Model.Email</div>
+                                </div>
+                            </div>
+                        </div>
+
+                    </div>
+
+                    <!-- SECOND ROW -->
+                    <div class="row">
+
+                        <!-- ADDRESS -->
+                        <div class="col-md-4">
+                            <div class="card p-3 mb-3">
+                                <h6>Address Info</h6>
+                                <p><strong>Address:</strong> @Model.Address</p>
+                                <p><strong>City:</strong> @Model.City</p>
+                                <p><strong>State:</strong> @Model.State</p>
+                                <p><strong>Country:</strong> @Model.Country</p>
+                            </div>
+                        </div>
+
+                        <!-- ID PROOF -->
+                        <div class="col-md-4">
+                            <div class="card p-3 mb-3">
+                                <h6>ID Proof</h6>
+                                <p><strong>Type:</strong> @Model.Id_Proof_Type</p>
+                                <p><strong>Number:</strong> @Model.Id_Proof_Number</p>
+                            </div>
+                        </div>
+
+                        <!-- VISIT DETAILS -->
+                        <div class="col-md-4">
+                            <div class="card p-3 mb-3">
+                                <h6>Visit Info</h6>
+
+                                <p><strong>Date:</strong> @Model.Visit_Date.ToString("dd-MM-yyyy")</p>
+
+                                <p>
+                                    <strong>Check-In:</strong>
+                                    @Model.Check_In_Time.ToString("dd-MM-yyyy HH:mm")
+                                </p>
+
+                                <p>
+                                    <strong>Check-Out:</strong>
+                                    @(Model.Check_Out_Time.HasValue
+                                                                        ? Model.Check_Out_Time.Value.ToString("dd-MM-yyyy HH:mm")
+                                                                        : "-")
+                                </p>
+
+                                <span class="badge @(Model.Check_Out_Time == null ? "bg-success" : "bg-secondary")">
+                                    @(Model.Check_Out_Time == null ? "Inside" : "Exited")
+                                </span>
+
+                            </div>
+                        </div>
+
+                    </div>
+
+                    <!-- THIRD ROW -->
+                    <div class="row">
+
+                        <!-- PURPOSE -->
+                        <div class="col-md-4">
+                            <div class="card p-3 mb-3">
+                                <h6>Visit Purpose</h6>
+                                <p>@Model.Purpose_Of_Visit</p>
+                            </div>
+                        </div>
+
+                        <!-- MEETING -->
+                        <div class="col-md-4">
+                            <div class="card p-3 mb-3">
+                                <h6>Meeting Info</h6>
+                                <p><strong>Person ID:</strong> @Model.Person_To_Meet_Id</p>
+                                <p><strong>Type:</strong> @Model.Person_Type</p>
+                            </div>
+                        </div>
+
+                        <!-- VEHICLE -->
+                        <div class="col-md-4">
+                            <div class="card p-3 mb-3">
+                                <h6>Vehicle Info</h6>
+                                <p><strong>Vehicle No:</strong> @Model.Vehicle_Number</p>
+                            </div>
+                        </div>
+
+                    </div>
+
+                    <!-- FOURTH ROW -->
+                    <div class="row">
+
+                        <!-- APPROVAL -->
+                        <div class="col-md-4">
+                            <div class="card p-3 mb-3">
+                                <h6>Approval</h6>
+                                <p><strong>Approved:</strong> @(Model.Is_Approved ? "Yes" : "No")</p>
+                                <p><strong>Approved By:</strong> @Model.Approved_By</p>
+                            </div>
+                        </div>
+
+                        <!-- AUDIT -->
+                        <div class="col-md-4">
+                            <div class="card p-3 mb-3">
+                                <h6>Audit Info</h6>
+                                <p><strong>Created:</strong> @Model.Created_At.ToString("dd-MM-yyyy HH:mm")</p>
+                                <p><strong>Created By:</strong> @Model.Created_By</p>
+                                <p>
+                                    <strong>Updated:</strong>
+                                    @(Model.Updated_At.HasValue
+                                                                        ? Model.Updated_At.Value.ToString("dd-MM-yyyy HH:mm")
+                                                                        : "-")
+                                </p>
+                                <p><strong>Updated By:</strong> @Model.Updated_By</p>
+                            </div>
+                        </div>
+
+                        <!-- STATUS -->
+                        <div class="col-md-4">
+                            <div class="card p-3 mb-3">
+                                <h6>Status</h6>
+                                <p><strong>Deleted:</strong> @(Model.Is_Deleted ? "Yes" : "No")</p>
+                            </div>
+                        </div>
+
+                    </div>
+
+                </div>
+            </div>
+
+        </div>
+    </section>
+
+</main> *@
+
+<style>
+    .warden-img img {
+    width: 200px;       /* fixed width */
+    height: 200px;      /* fixed height */
+    object-fit: cover;  /* crop nicely */
+    border-radius: 10px; /* optional styling */
+}
+</style>

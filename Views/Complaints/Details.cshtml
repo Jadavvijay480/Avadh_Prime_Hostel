@@ -1,0 +1,311 @@
+﻿@model AVADH_PRIME_Consume.Models.ComplaintsModel
+
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Complaint Profile</title>
+
+    @* <link href="~/css/stylesheet.css" rel="stylesheet" /> *@
+    <link href="~/css/stylesheet.css" rel="stylesheet" />
+ 
+</head>
+
+<body>
+
+    <main id="main" class="main">
+
+        <!-- HEADER -->
+        <div class="header-bar">
+            <div class="header-title">COMPLAINT DETAILS</div>
+
+            <div>
+                <a asp-action="Edit"
+                   asp-route-Complaint_Id="@Model.Complaint_Id"
+                   class="btn">EDIT</a>
+
+                <a asp-action="Index" class="btn">BACK</a>
+            </div>
+        </div>
+
+        <!-- GRID -->
+        <div class="main-grid">
+
+            <!-- ATTACHMENT -->
+            <div class="box student-box">
+                @{
+                    var filePath = Model.Attachment_Path;
+                    var ext = filePath != null ? System.IO.Path.GetExtension(filePath).ToLower() : "";
+                }
+
+                @if (!string.IsNullOrEmpty(filePath) && (ext == ".jpg" || ext == ".png" || ext == ".jpeg"))
+                {
+                    <img src="@Url.Content("~" + filePath)"
+                         class="circle-img"
+                         onerror="this.src='/images/no-image.png';" />
+                }
+                else
+                {
+                    <img src="/images/no-image.png" class="circle-img" />
+                }
+
+                <div>Complaints Image</div>
+            </div>
+
+            <!-- BASIC -->
+            <div class="box">
+                <div class="title">Basic Info</div>
+                <table class="kv">
+                    <tr><td class="key">ID</td><td class="colon">:</td><td class="value">@Model.Complaint_Id</td></tr>
+                    <tr><td class="key">Student</td><td class="colon">:</td><td class="value">@Model.Student_Id</td></tr>
+                    <tr><td class="key">Title</td><td class="colon">:</td><td class="value">@Model.Complaint_Title</td></tr>
+                    <tr><td class="key">Type</td><td class="colon">:</td><td class="value">@Model.Complaint_Type</td></tr>
+                </table>
+            </div>
+
+            <!-- STATUS -->
+            <div class="box">
+                <div class="title">Status Info</div>
+                <table class="kv">
+                    <tr><td class="key">Priority</td><td class="colon">:</td><td class="value">@Model.Priority</td></tr>
+                    <tr><td class="key">Status</td><td class="colon">:</td><td class="value status">@Model.Status</td></tr>
+                    <tr><td class="key">Assigned</td><td class="colon">:</td><td class="value">@(Model.Assigned_To ?? 0)</td></tr>
+                </table>
+            </div>
+
+           
+
+            <!-- DESCRIPTION -->
+            @* <div class="box">
+                <div class="title">Description</div>
+                <p>@Model.Complaint_Description</p>
+            </div> *@
+            <div class="box">
+                <div class="title with-line">Description</div>
+                <p>@Model.Complaint_Description</p>
+            </div>
+
+            <!-- DATE -->
+            <div class="box">
+                <div class="title">Date Info</div>
+                <table class="kv">
+                    <tr><td class="key">Complaint</td><td class="colon">:</td><td class="value">@Model.Complaint_Date.ToString("dd-MM-yyyy")</td></tr>
+                    <tr><td class="key">Resolved</td><td class="colon">:</td><td class="value">@(Model.Resolved_Date?.ToString("dd-MM-yyyy") ?? "-")</td></tr>
+                </table>
+            </div>
+
+            <!-- RESOLUTION -->
+            <div class="box">
+                <div class="title">Resolution</div>
+                <p>@(Model.Resolution_Remarks ?? "-")</p>
+            </div>
+
+            <!-- FEEDBACK -->
+            <div class="box">
+                <div class="title">Feedback</div>
+                <table class="kv">
+                    <tr><td class="key">Feedback</td><td class="colon">:</td><td class="value">@(Model.Feedback ?? "-")</td></tr>
+                    <tr><td class="key">Rating</td><td class="colon">:</td><td class="value">@(Model.Rating ?? 0)/5 ⭐</td></tr>
+                </table>
+            </div>
+
+            <!-- AUDIT -->
+            <div class="box">
+                <div class="title">Audit</div>
+                <table class="kv">
+                    <tr><td class="key">Created</td><td class="colon">:</td><td class="value">@Model.CreatedAt.ToString("dd-MM-yyyy")</td></tr>
+                    <tr><td class="key">Updated</td><td class="colon">:</td><td class="value">@(Model.UpdatedAt?.ToString("dd-MM-yyyy") ?? "-")</td></tr>
+                </table>
+            </div>
+
+        </div>
+
+    </main>
+
+</body>
+</html>
+
+@* @model AVADH_PRIME_Consume.Models.ComplaintsModel
+
+<main id="main" class="main">
+
+    <!-- HEADER -->
+    <div class="pagetitle d-flex justify-content-between align-items-center">
+        <div>
+            <h1>Complaint Details</h1>
+            <nav>
+                <ol class="breadcrumb mb-0">
+                    <li class="breadcrumb-item"><a asp-action="Index">Home</a></li>
+                    <li class="breadcrumb-item active">Complaint Profile</li>
+                </ol>
+            </nav>
+        </div>
+
+        <div>
+            <a asp-action="Edit"
+               asp-route-Complaint_Id="@Model.Complaint_Id"
+               class="btn btn-warning">✏️ Edit</a>
+
+            <a asp-action="Index" class="btn btn-secondary">⬅ Back</a>
+        </div>
+    </div>
+
+    <!-- CONTENT -->
+    <section class="section dashboard pt-2">
+        <div class="row">
+
+            <div class="col-12">
+                <div class="card shadow-sm p-4">
+
+                    <!-- TOP HEADER -->
+                    <div class="row align-items-center mb-4">
+
+                        <!-- ATTACHMENT PREVIEW -->
+                        <div class="col-md-3 text-center">
+
+                            @{
+                                var filePath = Model.Attachment_Path;
+                                var ext = filePath != null ? System.IO.Path.GetExtension(filePath).ToLower() : "";
+                            }
+
+                            @if (!string.IsNullOrEmpty(filePath) && (ext == ".jpg" || ext == ".png" || ext == ".jpeg"))
+                            {
+                                <img src="@Url.Content("~" + filePath)"
+                                     class="img-fluid rounded border"
+                                     style="height:180px;width:180px;object-fit:cover;"
+                                     onerror="this.src='/images/no-image.png';" />
+                            }
+                            else if (!string.IsNullOrEmpty(filePath))
+                            {
+                                <div class="border p-3 rounded">
+                                    📄 File Attached
+                                    <br />
+                                    <a href="@Url.Content("~" + filePath)" target="_blank" class="btn btn-sm btn-primary mt-2">
+                                        View File
+                                    </a>
+                                </div>
+                            }
+                            else
+                            {
+                                <img src="/images/no-image.png"
+                                     class="img-fluid rounded border"
+                                     style="height:180px;width:180px;object-fit:cover;" />
+                            }
+
+                        </div>
+
+                        <!-- BASIC INFO -->
+                        <div class="col-md-9">
+                            <h2 class="fw-bold">@Model.Complaint_Title</h2>
+
+                            <div class="card p-3 mt-3 bg-light">
+                                <h5 class="mb-3">Basic Info</h5>
+
+                                <div class="row">
+                                    <div class="col-md-4"><strong>ID:</strong> @Model.Complaint_Id</div>
+                                    <div class="col-md-4"><strong>Student ID:</strong> @Model.Student_Id</div>
+                                    <div class="col-md-4"><strong>Type:</strong> @Model.Complaint_Type</div>
+
+                                    <div class="col-md-4"><strong>Priority:</strong> @Model.Priority</div>
+
+                                    <div class="col-md-4">
+                                        <strong>Status:</strong>
+                                        <span class="badge
+                                            @(Model.Status == "Open" ? "bg-danger" :
+                                                                                            Model.Status == "In Progress" ? "bg-warning text-dark" :
+                                                                                            Model.Status == "Resolved" ? "bg-success" :
+                                                                                            "bg-secondary")">
+                                            @Model.Status
+                                        </span>
+                                    </div>
+
+                                    <div class="col-md-4">
+                                        <strong>Assigned To:</strong>
+                                        @(Model.Assigned_To.HasValue? Model.Assigned_To: "-")
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                    </div>
+
+                    <!-- DESCRIPTION -->
+                    <div class="card p-3 mb-3">
+                        <h6>Complaint Description</h6>
+                        <p>@Model.Complaint_Description</p>
+                    </div>
+
+                    <!-- SECOND ROW -->
+                    <div class="row">
+
+                        <!-- DATE -->
+                        <div class="col-md-4">
+                            <div class="card p-3 mb-3">
+                                <h6>Date Info</h6>
+                                <p><strong>Complaint Date:</strong> @Model.Complaint_Date.ToString("dd-MM-yyyy")</p>
+                                <p>
+                                    <strong>Resolved Date:</strong>
+                                    @(Model.Resolved_Date?.ToString("dd-MM-yyyy") ?? "-")
+                                </p>
+                            </div>
+                        </div>
+
+                        <!-- RESOLUTION -->
+                        <div class="col-md-4">
+                            <div class="card p-3 mb-3">
+                                <h6>Resolution</h6>
+                                <p><strong>Remarks:</strong> @(Model.Resolution_Remarks ?? "-")</p>
+                            </div>
+                        </div>
+
+                        <!-- FEEDBACK -->
+                        <div class="col-md-4">
+                            <div class="card p-3 mb-3">
+                                <h6>Feedback</h6>
+                                <p><strong>Feedback:</strong> @(Model.Feedback ?? "-")</p>
+                                <p><strong>Rating:</strong> @(Model.Rating ?? 0)/5 ⭐</p>
+                            </div>
+                        </div>
+
+                    </div>
+
+                    <!-- ATTACHMENT LINK -->
+                    <div class="card p-3 mb-3">
+                        <h6>Attachment</h6>
+
+                        @if (!string.IsNullOrEmpty(Model.Attachment_Path))
+                        {
+                            <a href="@Url.Content("~" + Model.Attachment_Path)" target="_blank" class="btn btn-outline-primary btn-sm">
+                                📎 Open Attachment
+                            </a>
+                        }
+                        else
+                        {
+                            <p>No attachment uploaded</p>
+                        }
+                    </div>
+
+                    <!-- AUDIT -->
+                    <div class="card p-3 mt-3">
+                        <div class="row">
+                            <div class="col-md-6">
+                                <p><strong>Created At:</strong> @Model.CreatedAt.ToString("dd-MM-yyyy HH:mm")</p>
+                            </div>
+                            <div class="col-md-6">
+                                <p>
+                                    <strong>Updated At:</strong>
+                                    @(Model.UpdatedAt?.ToString("dd-MM-yyyy HH:mm") ?? "-")
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+
+        </div>
+    </section>
+
+</main>
+
+
+ *@

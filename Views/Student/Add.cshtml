@@ -1,0 +1,238 @@
+﻿@model AVADH_PRIME_Consume.Models.StudentModel
+
+@{
+    ViewData["Title"] = Model.Student_Id == 0 ? "Add Student" : "Edit Student";
+}
+
+<main id="main" class="main">
+
+    ```
+    <!-- HEADER -->
+    <div class="pagetitle d-flex justify-content-between align-items-center">
+        <h1>@ViewData["Title"]</h1>
+        <a asp-action="Index" class="btn btn-secondary">⬅ Back</a>
+    </div>
+
+    <section class="section dashboard pt-2">
+        <div class="card shadow-sm p-4">
+
+            <form asp-action="Add" method="post" enctype="multipart/form-data">
+
+                @Html.AntiForgeryToken()
+
+                <!-- VALIDATION -->
+                <div asp-validation-summary="All" class="text-danger mb-3"></div>
+
+                <!-- HIDDEN -->
+                <input type="hidden" asp-for="Student_Id" />
+                <input type="hidden" asp-for="CreatedAt" />
+                <input type="hidden" asp-for="UpdatedAt" />
+                <input type="hidden" asp-for="student_image" />
+                <input type="hidden" asp-for="ID_Proof_Path" />
+
+                <!-- IMAGE -->
+                <div class="text-center mb-4">
+                    <img id="previewImage"
+                         src="@(string.IsNullOrEmpty(Model.student_image)
+                                                     ? "/images/no-image.png"
+                                                     : Model.student_image)"
+                         class="rounded-circle border"
+                         style="width:120px;height:120px;object-fit:cover;"
+                         onerror="this.src='/images/no-image.png';" />
+
+                    <input asp-for="ImageFile" type="file"
+                           class="form-control mt-2"
+                           accept="image/*"
+                           onchange="previewFile(event)" />
+
+                    <span asp-validation-for="ImageFile" class="text-danger"></span>
+                </div>
+
+                <!-- PERSONAL -->
+                <h5 class="mb-3">👤 Personal Info</h5>
+                <div class="row">
+                    <div class="col-md-4">
+                        <input asp-for="First_Name" class="form-control mb-2" placeholder="First Name" />
+                    </div>
+                    <div class="col-md-4">
+                        <input asp-for="Last_Name" class="form-control mb-2" placeholder="Last Name" />
+                    </div>
+                    <div class="col-md-4">
+                        <select asp-for="Gender" class="form-control mb-2">
+                            <option value="">Select Gender</option>
+                            <option value="Male">Male</option>
+                            <option value="Female">Female</option>
+                        </select>
+                    </div>
+                    <div class="col-md-4">
+                        <input asp-for="DateOfBirth" type="date"
+                               value="@(Model.DateOfBirth == default ? "" : Model.DateOfBirth.ToString("yyyy-MM-dd"))"
+                               class="form-control mb-2" />
+                    </div>
+                    <div class="col-md-4">
+                        <input asp-for="BloodGroup" class="form-control mb-2" placeholder="Blood Group" />
+                    </div>
+                    <div class="col-md-4">
+                        <input asp-for="H_Enrollment_No" class="form-control mb-2" placeholder="Hostel Enrollment No" />
+                    </div>
+                </div>
+
+                <!-- CONTACT -->
+                <h5 class="mt-3 mb-3">📞 Contact Info</h5>
+                <div class="row">
+                    <div class="col-md-4">
+                        <input asp-for="Phone" class="form-control mb-2" placeholder="Phone" />
+                    </div>
+                    <div class="col-md-4">
+                        <input asp-for="Email" class="form-control mb-2" placeholder="Email" />
+                    </div>
+                    <div class="col-md-4">
+                        <input asp-for="Address" class="form-control mb-2" placeholder="Address" />
+                    </div>
+                    <div class="col-md-4">
+                        <input asp-for="City" class="form-control mb-2" placeholder="City" />
+                    </div>
+                    <div class="col-md-4">
+                        <input asp-for="State" class="form-control mb-2" placeholder="State" />
+                    </div>
+                    <div class="col-md-4">
+                        <input asp-for="Pincode" class="form-control mb-2" placeholder="Pincode" />
+                    </div>
+                </div>
+
+                <!-- ACADEMIC -->
+                <h5 class="mt-3 mb-3">🎓 Academic Info</h5>
+                <div class="row">
+                    <div class="col-md-4">
+                        <input asp-for="U_Enrollment_No" class="form-control mb-2" placeholder="University Enrollment No" />
+                    </div>
+                    <div class="col-md-4">
+                        <input asp-for="Course" class="form-control mb-2" placeholder="Course" />
+                    </div>
+                    <div class="col-md-4">
+                        <input asp-for="Branch" class="form-control mb-2" placeholder="Branch" />
+                    </div>
+                    <div class="col-md-4">
+                        <input asp-for="Semester" type="number" class="form-control mb-2" />
+                    </div>
+                    <div class="col-md-4">
+                        <input asp-for="CollegeName" class="form-control mb-2" placeholder="College Name" />
+                    </div>
+                </div>
+
+                <!-- HOSTEL -->
+                <h5 class="mt-3 mb-3">🏠 Hostel Info</h5>
+                <div class="row">
+                    <div class="col-md-4">
+                        <input asp-for="Hostel_Id" type="number" class="form-control mb-2" />
+                    </div>
+                    <div class="col-md-4">
+                        <input asp-for="AdmissionDate" type="date"
+                               value="@(Model.AdmissionDate == default ? "" : Model.AdmissionDate.ToString("yyyy-MM-dd"))"
+                               class="form-control mb-2" />
+                    </div>
+                </div>
+
+                <!-- FAMILY -->
+                <h5 class="mt-3 mb-3">👨‍👩‍👧 Family Info</h5>
+                <div class="row">
+                    <div class="col-md-3">
+                        <input asp-for="Father_Name" class="form-control mb-2" placeholder="Father Name" />
+                    </div>
+                    <div class="col-md-3">
+                        <input asp-for="Mother_Name" class="form-control mb-2" placeholder="Mother Name" />
+                    </div>
+                    <div class="col-md-3">
+                        <input asp-for="Parent_Phone" class="form-control mb-2" placeholder="Parent Phone" />
+                    </div>
+                    <div class="col-md-3">
+                        <input asp-for="Emergency_Contact" class="form-control mb-2" placeholder="Emergency Contact" />
+                    </div>
+                </div>
+
+                <!-- ID PROOF -->
+                <h5 class="mt-3 mb-3">🆔 ID Proof</h5>
+                <div class="row">
+                    <div class="col-md-4">
+                        <input asp-for="ID_Proof_Type" class="form-control mb-2" placeholder="ID Type" />
+                    </div>
+                    <div class="col-md-4">
+                        <input asp-for="ID_Proof_No" class="form-control mb-2" placeholder="ID Number" />
+                    </div>
+                    <div class="col-md-4">
+                        <input asp-for="IDProofFile" type="file"
+                               class="form-control mb-2"
+                               accept="image/*,.pdf"
+                               onchange="previewDoc(event)" />
+
+                        <img id="docPreview"
+                             src="@(string.IsNullOrEmpty(Model.ID_Proof_Path)
+                                                             ? "/images/no-image.png"
+                                                             : Model.ID_Proof_Path)"
+                             class="border rounded mt-2"
+                             style="width:120px;height:120px;object-fit:cover;"
+                             onerror="this.src='/images/no-image.png';" />
+                    </div>
+                </div>
+
+                <!-- STATUS -->
+                <h5 class="mt-3 mb-3">⚙ Status</h5>
+                <div class="row">
+                    <div class="col-md-4">
+                        <select asp-for="IsActive" class="form-control mb-2">
+                            <option value="true">Active</option>
+                            <option value="false">Inactive</option>
+                        </select>
+                    </div>
+                    <div class="col-md-4">
+                        <input asp-for="Status" class="form-control mb-2" placeholder="Status" />
+                    </div>
+                </div>
+
+                <!-- SUBMIT -->
+                <div class="text-end mt-4">
+                    <button type="submit" class="btn btn-success">
+                        @(Model.Student_Id == 0 ? "➕ Add Student" : "✏️ Update Student")
+                    </button>
+                </div>
+
+            </form>
+
+        </div>
+    </section>
+    ```
+
+</main>
+
+@section Scripts {
+    @{
+        await Html.RenderPartialAsync("_ValidationScriptsPartial");
+    }
+
+    ```
+    <script>
+        function previewFile(event) {
+            const reader = new FileReader();
+            reader.onload = function () {
+                document.getElementById('previewImage').src = reader.result;
+            };
+            reader.readAsDataURL(event.target.files[0]);
+        }
+
+        function previewDoc(event) {
+            const file = event.target.files[0];
+
+            if (file && file.type === "application/pdf") {
+                document.getElementById('docPreview').src = "/images/pdf-icon.png";
+            } else {
+                const reader = new FileReader();
+                reader.onload = function () {
+                    document.getElementById('docPreview').src = reader.result;
+                };
+                reader.readAsDataURL(file);
+            }
+        }
+    </script>
+    ```
+
+}

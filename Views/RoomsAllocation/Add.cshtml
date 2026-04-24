@@ -1,0 +1,90 @@
+﻿@model AVADH_PRIME_Consume.Models.RoomsAllocationModel
+
+@{
+    ViewData["Title"] = Model.Allocation_Id == 0 ? "Allocate Room" : "Edit Allocation";
+}
+
+<main id="main" class="main">
+
+    <div class="pagetitle">
+        <h1>@ViewData["Title"]</h1>
+    </div>
+
+    <section class="section">
+        <div class="row">
+            <div class="col-lg-8 mx-auto">
+
+                <div class="card">
+                    <div class="card-body pt-4">
+
+                        <form asp-action="Add" method="post">
+
+                            @Html.AntiForgeryToken()
+
+                            <!-- Hidden ID -->
+                            <input type="hidden" asp-for="Allocation_Id" />
+
+                            <!-- Student ID -->
+                            <div class="mb-3">
+                                <label class="form-label">Student ID</label>
+                                <input asp-for="Student_Id" class="form-control" />
+                                <span asp-validation-for="Student_Id" class="text-danger"></span>
+                            </div>
+
+                            <!-- Bed No -->
+                            <div class="mb-3">
+                                <label class="form-label">Bed Number</label>
+                                <input asp-for="Bed_No" class="form-control" />
+                            </div>
+
+                            <!-- Allocation Date -->
+                            <div class="mb-3">
+                                <label class="form-label">Allocation Date</label>
+                                <input asp-for="Allocation_Date" type="date" class="form-control" />
+                            </div>
+
+                            <!-- Vacate Date -->
+                            <div class="mb-3">
+                                <label class="form-label">Vacate Date</label>
+                                <input asp-for="Vacate_Date" type="date" class="form-control" />
+                            </div>
+
+                            <!-- Status -->
+                            <div class="mb-3">
+                                <label class="form-label">Status</label>
+                                <select asp-for="Status" class="form-control">
+                                    <option>Active</option>
+                                    <option>Vacated</option>
+                                </select>
+                            </div>
+
+                            <!-- CreatedAt -->
+                            <input type="hidden" asp-for="CreatedAt" value="@DateTime.Now" />
+
+                            <!-- UpdatedAt -->
+                            @if (Model.Allocation_Id != 0)
+                            {
+                                <input type="hidden" asp-for="UpdatedAt" value="@DateTime.Now" />
+                            }
+
+                            <!-- Buttons -->
+                            <div class="text-center mt-4">
+                                <button type="submit" class="btn btn-success">
+                                    @(Model.Allocation_Id == 0 ? "Allocate" : "Update")
+                                </button>
+
+                                <a asp-action="Index" class="btn btn-secondary ms-2">
+                                    Cancel
+                                </a>
+                            </div>
+
+                        </form>
+
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </section>
+
+</main>

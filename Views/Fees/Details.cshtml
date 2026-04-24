@@ -1,0 +1,257 @@
+﻿@model AVADH_PRIME_Consume.Models.FeesModel
+
+
+
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Fees Profile</title>
+
+    <link href="~/css/stylesheet.css" rel="stylesheet" />
+</head>
+
+<body>
+
+<main id="main" class="main">
+
+    <!-- HEADER -->
+    <div class="header-bar">
+        <div class="header-title">FEES DETAILS</div>
+
+        <div>
+            <a asp-action="Edit"
+               asp-route-Fees_Id="@Model.Fees_Id"
+               class="btn">EDIT</a>
+
+            <a asp-action="Index" class="btn">BACK</a>
+        </div>
+    </div>
+
+    <!-- GRID -->
+    <div class="main-grid">
+
+            <!-- ICON BOX -->
+            <div class="box student-box">
+                <i class="bi bi-cash-coin" style="font-size:80px;color:darkolivegreen;"></i>
+                <div class="student-name">@Model.Fee_Type</div>
+            </div>
+
+        <!-- BASIC INFO -->
+        <div class="box">
+            <div class="title">Basic Info</div>
+            <table class="kv">
+                <tr><td class="key">Fees ID</td><td class="colon">:</td><td class="value">@Model.Fees_Id</td></tr>
+                <tr><td class="key">Student ID</td><td class="colon">:</td><td class="value">@Model.Student_Id</td></tr>
+                <tr><td class="key">Fee Type</td><td class="colon">:</td><td class="value">@Model.Fee_Type</td></tr>
+                <tr><td class="key">Semester</td><td class="colon">:</td><td class="value">@Model.Semester</td></tr>
+                <tr><td class="key">Year</td><td class="colon">:</td><td class="value">@Model.Year</td></tr>
+            </table>
+        </div>
+
+        <!-- STATUS -->
+        <div class="box">
+            <div class="title">Status Info</div>
+            <table class="kv">
+                <tr><td class="key">Payment</td><td class="colon">:</td><td class="value status">@Model.Payment_Status</td></tr>
+                <tr><td class="key">Active</td><td class="colon">:</td><td class="value">@(Model.IsActive ? "Yes" : "No")</td></tr>
+            </table>
+        </div>
+
+        
+
+        <!-- AMOUNT -->
+        <div class="box">
+            <div class="title">Amount Info</div>
+            <table class="kv">
+                <tr><td class="key">Total</td><td class="colon">:</td><td class="value">₹@Model.Total_Amount</td></tr>
+                <tr><td class="key">Paid</td><td class="colon">:</td><td class="value">₹@Model.Paid_Amount</td></tr>
+                <tr><td class="key">Due</td><td class="colon">:</td><td class="value">₹@Model.Due_Amount</td></tr>
+                <tr><td class="key">Late Fine</td><td class="colon">:</td><td class="value">₹@Model.Late_Fine</td></tr>
+            </table>
+        </div>
+
+        <!-- PAYMENT -->
+        <div class="box">
+            <div class="title">Payment Info</div>
+            <table class="kv">
+                <tr><td class="key">Mode</td><td class="colon">:</td><td class="value">@Model.Payment_Mode</td></tr>
+                <tr><td class="key">Transaction</td><td class="colon">:</td><td class="value">@Model.Transaction_Id</td></tr>
+                <tr><td class="key">Status</td><td class="colon">:</td><td class="value status">@Model.Payment_Status</td></tr>
+            </table>
+        </div>
+
+        <!-- DATES -->
+        <div class="box">
+            <div class="title">Date Info</div>
+            <table class="kv">
+                <tr><td class="key">Fee Date</td><td class="colon">:</td><td class="value">@Model.Fee_Date.ToString("dd-MM-yyyy")</td></tr>
+                <tr><td class="key">Due Date</td><td class="colon">:</td><td class="value">@Model.Due_Date.ToString("dd-MM-yyyy")</td></tr>
+                <tr>
+                    <td class="key">Payment</td>
+                    <td class="colon">:</td>
+                    <td class="value">
+                        @(Model.Payment_Date?.ToString("dd-MM-yyyy") ?? "-")
+                    </td>
+                </tr>
+            </table>
+        </div>
+
+        <!-- SUMMARY -->
+        <div class="box">
+            <div class="title">Summary</div>
+            <table class="kv">
+                <tr><td class="key">Status</td><td class="colon">:</td><td class="value status">@Model.Payment_Status</td></tr>
+                <tr><td class="key">Active</td><td class="colon">:</td><td class="value">@(Model.IsActive ? "Yes" : "No")</td></tr>
+            </table>
+        </div>
+
+        <!-- AUDIT -->
+        <div class="box">
+            <div class="title">Audit</div>
+            <table class="kv">
+                <tr><td class="key">Created</td><td class="colon">:</td><td class="value">@Model.CreatedAt.ToString("dd-MM-yyyy HH:mm")</td></tr>
+                <tr>
+                    <td class="key">Updated</td>
+                    <td class="colon">:</td>
+                    <td class="value">
+                        @(Model.UpdatedAt?.ToString("dd-MM-yyyy HH:mm") ?? "-")
+                    </td>
+                </tr>
+            </table>
+        </div>
+
+    </div>
+
+</main>
+
+</body>
+</html>
+
+
+@* 
+<main id="main" class="main">
+
+    <!-- HEADER -->
+    <div class="pagetitle d-flex justify-content-between align-items-center">
+        <div>
+            <h1>Fees Details</h1>
+            <nav>
+                <ol class="breadcrumb mb-0">
+                    <li class="breadcrumb-item"><a asp-action="Index">Home</a></li>
+                    <li class="breadcrumb-item active">Fees Profile</li>
+                </ol>
+            </nav>
+        </div>
+
+        <div>
+            <a asp-action="Edit"
+               asp-route-Fees_Id="@Model.Fees_Id"
+               class="btn btn-warning">✏️ Edit</a>
+
+            <a asp-action="Index" class="btn btn-secondary">⬅ Back</a>
+        </div>
+    </div>
+
+    <!-- CONTENT -->
+    <section class="section dashboard pt-2">
+        <div class="row">
+
+            <div class="col-12">
+                <div class="card shadow-sm p-4">
+
+                    <!-- TOP HEADER -->
+                    <div class="row align-items-center mb-4">
+
+                        <!-- Icon -->
+                        <div class="col-md-3 text-center">
+                            <i class="bi bi-cash-coin text-success" style="font-size:100px;"></i>
+                        </div>
+
+                        <!-- Basic Info -->
+                        <div class="col-md-9">
+                            <h2 class="fw-bold">@Model.Fee_Type</h2>
+
+                            <div class="card p-3 mt-3 bg-light">
+                                <h5 class="mb-3">Basic Info</h5>
+
+                                <div class="row">
+                                    <div class="col-md-4"><strong>Fees ID:</strong> @Model.Fees_Id</div>
+                                    <div class="col-md-4"><strong>Student ID:</strong> @Model.Student_Id</div>
+                                    <div class="col-md-4"><strong>Status:</strong> @Model.Payment_Status</div>
+
+                                    <div class="col-md-4"><strong>Semester:</strong> @Model.Semester</div>
+                                    <div class="col-md-4"><strong>Year:</strong> @Model.Year</div>
+                                    <div class="col-md-4"><strong>Active:</strong> @(Model.IsActive ? "Yes" : "No")</div>
+                                </div>
+                            </div>
+                        </div>
+
+                    </div>
+
+                    <!-- SECOND ROW -->
+                    <div class="row">
+
+                        <!-- Amount Info -->
+                        <div class="col-md-4">
+                            <div class="card p-3 mb-3">
+                                <h6>Amount Info</h6>
+                                <p><strong>Total:</strong> ₹@Model.Total_Amount</p>
+                                <p><strong>Paid:</strong> ₹@Model.Paid_Amount</p>
+                                <p><strong>Due:</strong> ₹@Model.Due_Amount</p>
+                                <p><strong>Late Fine:</strong> ₹@Model.Late_Fine</p>
+                            </div>
+                        </div>
+
+                        <!-- Payment Info -->
+                        <div class="col-md-4">
+                            <div class="card p-3 mb-3">
+                                <h6>Payment Info</h6>
+                                <p><strong>Mode:</strong> @Model.Payment_Mode</p>
+                                <p><strong>Transaction:</strong> @Model.Transaction_Id</p>
+                                <p><strong>Status:</strong> @Model.Payment_Status</p>
+                            </div>
+                        </div>
+
+                        <!-- Date Info -->
+                        <div class="col-md-4">
+                            <div class="card p-3 mb-3">
+                                <h6>Date Info</h6>
+                                <p><strong>Fee Date:</strong> @Model.Fee_Date.ToString("dd-MM-yyyy")</p>
+                                <p><strong>Due Date:</strong> @Model.Due_Date.ToString("dd-MM-yyyy")</p>
+                                <p>
+                                    <strong>Payment Date:</strong>
+                                    @(Model.Payment_Date.HasValue
+                                                                        ? Model.Payment_Date.Value.ToString("dd-MM-yyyy")
+                                                                        : "-")
+                                </p>
+                            </div>
+                        </div>
+
+                    </div>
+
+                    <!-- FOOTER -->
+                    <div class="card p-3 mt-3">
+                        <div class="row">
+                            <div class="col-md-6">
+                                <p><strong>Status:</strong> @Model.Payment_Status</p>
+                                <p><strong>Active:</strong> @(Model.IsActive ? "Yes" : "No")</p>
+                            </div>
+                            <div class="col-md-6">
+                                <p><strong>Created:</strong> @Model.CreatedAt.ToString("dd-MM-yyyy HH:mm")</p>
+                                <p>
+                                    <strong>Updated:</strong>
+                                    @(Model.UpdatedAt.HasValue
+                                                                        ? Model.UpdatedAt.Value.ToString("dd-MM-yyyy HH:mm")
+                                                                        : "-")
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+
+        </div>
+    </section>
+
+</main> *@

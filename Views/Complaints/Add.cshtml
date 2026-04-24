@@ -1,0 +1,292 @@
+﻿@model AVADH_PRIME_Consume.Models.ComplaintsModel
+
+<main id="main" class="main">
+
+    <!-- HEADER -->
+    <div class="pagetitle d-flex justify-content-between align-items-center">
+        <h1>@(Model.Complaint_Id == 0 ? "Add Complaint" : "Edit Complaint")</h1>
+        <a asp-action="Index" class="btn btn-secondary">⬅ Back</a>
+    </div>
+
+    <!-- FORM -->
+    <section class="section dashboard pt-2">
+        <div class="card p-4 shadow-sm">
+
+            <form asp-action="Add" method="post" enctype="multipart/form-data">
+                @Html.AntiForgeryToken()
+
+                <!-- HIDDEN -->
+                <input type="hidden" asp-for="Complaint_Id" />
+                <input type="hidden" asp-for="CreatedAt" />
+                <input type="hidden" asp-for="UpdatedAt" />
+                <input type="hidden" asp-for="Attachment_Path" />
+
+                <div class="row">
+
+                    <!-- STUDENT -->
+                    <div class="col-md-4 mb-3">
+                        <label>Student ID</label>
+                        <input asp-for="Student_Id" class="form-control" />
+                        <span asp-validation-for="Student_Id" class="text-danger"></span>
+                    </div>
+
+                    <!-- TITLE -->
+                    <div class="col-md-4 mb-3">
+                        <label>Title</label>
+                        <input asp-for="Complaint_Title" class="form-control" />
+                        <span asp-validation-for="Complaint_Title" class="text-danger"></span>
+                    </div>
+
+                    <!-- TYPE -->
+                    <div class="col-md-4 mb-3">
+                        <label>Type</label>
+                        <input asp-for="Complaint_Type" class="form-control" />
+                    </div>
+
+                    <!-- DESCRIPTION -->
+                    <div class="col-md-12 mb-3">
+                        <label>Description</label>
+                        <textarea asp-for="Complaint_Description" class="form-control"></textarea>
+                    </div>
+
+                    <!-- PRIORITY -->
+                    <div class="col-md-3 mb-3">
+                        <label>Priority</label>
+                        <select asp-for="Priority" class="form-select">
+                            <option value="">-- Select --</option>
+                            <option>Low</option>
+                            <option>Medium</option>
+                            <option>High</option>
+                        </select>
+                    </div>
+
+                    <!-- STATUS -->
+                    <div class="col-md-3 mb-3">
+                        <label>Status</label>
+                        <select asp-for="Status" class="form-select">
+                            <option>Pending</option>
+                            <option>Open</option>
+                            <option>In Progress</option>
+                            <option>Resolved</option>
+                        </select>
+                    </div>
+
+                    <!-- ASSIGNED -->
+                    <div class="col-md-3 mb-3">
+                        <label>Assigned To</label>
+                        <input asp-for="Assigned_To" class="form-control" />
+                    </div>
+
+                    <!-- DATE -->
+                    <div class="col-md-3 mb-3">
+                        <label>Complaint Date</label>
+                        <input asp-for="Complaint_Date" type="date" class="form-control" />
+                    </div>
+
+                    <!-- RESOLVED DATE -->
+                    <div class="col-md-3 mb-3">
+                        <label>Resolved Date</label>
+                        <input asp-for="Resolved_Date" type="date" class="form-control" />
+                    </div>
+
+                    <!-- REMARKS -->
+                    <div class="col-md-9 mb-3">
+                        <label>Resolution Remarks</label>
+                        <textarea asp-for="Resolution_Remarks" class="form-control"></textarea>
+                    </div>
+
+                    <!-- 🔥 ATTACHMENT UPLOAD -->
+                    <div class="col-md-6 mb-3">
+                        <label>Upload Attachment</label>
+
+                        <input type="file"
+                               name="AttachmentFile"
+                               class="form-control"
+                               accept="image/*,.pdf"
+                               onchange="previewFile(event)" />
+
+                        <!-- PREVIEW -->
+                        <div class="mt-2">
+                            <img id="preview"
+                                 src="@(string.IsNullOrEmpty(Model.Attachment_Path) ? "/images/no-image.png" : Model.Attachment_Path)"
+                                 style="max-height:120px; border-radius:10px;" />
+                        </div>
+                    </div>
+
+                    <!-- FEEDBACK -->
+                    <div class="col-md-6 mb-3">
+                        <label>Feedback</label>
+                        <input asp-for="Feedback" class="form-control" />
+                    </div>
+
+                    <!-- RATING -->
+                    <div class="col-md-3 mb-3">
+                        <label>Rating</label>
+                        <input asp-for="Rating" type="number" min="1" max="5" class="form-control" />
+                    </div>
+
+                </div>
+
+                <!-- SUBMIT -->
+                <div class="text-end mt-3">
+                    <button type="submit" class="btn btn-success px-4">
+                        @(Model.Complaint_Id == 0 ? "➕ Submit" : "✏️ Update")
+                    </button>
+                </div>
+
+            </form>
+
+        </div>
+    </section>
+
+</main>
+
+@section Scripts {
+    @{
+        await Html.RenderPartialAsync("_ValidationScriptsPartial");
+    }
+
+    <script>
+        function previewFile(event) {
+            const preview = document.getElementById('preview');
+            preview.src = URL.createObjectURL(event.target.files[0]);
+        }
+    </script>
+}
+
+
+
+
+@* @model AVADH_PRIME_Consume.Models.ComplaintsModel
+
+<main id="main" class="main">
+
+    <!-- HEADER -->
+    <div class="pagetitle d-flex justify-content-between align-items-center">
+        <div>
+            <h1>@(Model.Complaint_Id == 0 ? "Add Complaint" : "Edit Complaint")</h1>
+        </div>
+
+        <a asp-action="Index" class="btn btn-secondary">⬅ Back</a>
+    </div>
+
+    <!-- FORM -->
+    <section class="section dashboard pt-2">
+        <div class="card p-4">
+
+            <form asp-action="Add" method="post">
+                @Html.AntiForgeryToken()
+
+                <input type="hidden" asp-for="Complaint_Id" />
+               
+                <!-- ✅ ADD HERE -->
+                <input type="hidden" asp-for="CreatedAt" />
+                <input type="hidden" asp-for="UpdatedAt" />
+
+                <div class="row">
+
+                    <!-- Student -->
+                    <div class="col-md-4 mb-3">
+                        <label class="form-label">Student ID</label>
+                        <input asp-for="Student_Id" class="form-control" />
+                        <span asp-validation-for="Student_Id" class="text-danger"></span>
+                    </div>
+
+                    <!-- Title -->
+                    <div class="col-md-4 mb-3">
+                        <label class="form-label">Title</label>
+                        <input asp-for="Complaint_Title" class="form-control" />
+                        <span asp-validation-for="Complaint_Title" class="text-danger"></span>
+                    </div>
+
+                    <!-- Type -->
+                    <div class="col-md-4 mb-3">
+                        <label class="form-label">Complaint Type</label>
+                        <input asp-for="Complaint_Type" class="form-control" />
+                        <span asp-validation-for="Complaint_Type" class="text-danger"></span>
+                    </div>
+
+                    <!-- Description -->
+                    <div class="col-md-12 mb-3">
+                        <label class="form-label">Description</label>
+                        <textarea asp-for="Complaint_Description" class="form-control" rows="3"></textarea>
+                        <span asp-validation-for="Complaint_Description" class="text-danger"></span>
+                    </div>
+
+                    <!-- Priority -->
+                    <select asp-for="Priority" class="form-select">
+                        <option value="">-- Select Priority --</option>
+                        <option value="Low">Low</option>
+                        <option value="Medium">Medium</option>
+                        <option value="High">High</option>
+                    </select>
+
+                    <!-- Status -->
+                    <select asp-for="Status" class="form-select">
+                        <option value="">-- Select Status --</option>
+                        <option value="Pending">Pending</option>
+                        <option value="Open">Open</option>
+                        <option value="In Progress">In Progress</option>
+                        <option value="Resolved">Resolved</option>
+                    </select>
+
+                    <!-- Assigned -->
+                    <div class="col-md-3 mb-3">
+                        <label class="form-label">Assigned To</label>
+                        <input asp-for="Assigned_To" class="form-control" />
+                    </div>
+
+                    <!-- Complaint Date -->
+                    <div class="col-md-3 mb-3">
+                        <label class="form-label">Complaint Date</label>
+                        <input asp-for="Complaint_Date" type="date" class="form-control" />
+                    </div>
+
+                    <!-- Resolved Date -->
+                    <div class="col-md-3 mb-3">
+                        <label class="form-label">Resolved Date</label>
+                        <input asp-for="Resolved_Date" type="date" class="form-control" />
+                    </div>
+
+                    <!-- Remarks -->
+                    <div class="col-md-9 mb-3">
+                        <label class="form-label">Resolution Remarks</label>
+                        <textarea asp-for="Resolution_Remarks" class="form-control"></textarea>
+                    </div>
+
+                    <!-- Attachment -->
+                    <div class="col-md-6 mb-3">
+                        <label class="form-label">Attachment Path</label>
+                        <input asp-for="Attachment_Path" class="form-control" placeholder="Enter file URL/path" />
+                    </div>
+
+                    <!-- Feedback -->
+                    <div class="col-md-6 mb-3">
+                        <label class="form-label">Feedback</label>
+                        <input asp-for="Feedback" class="form-control" />
+                    </div>
+
+                    <!-- Rating -->
+                    <div class="col-md-3 mb-3">
+                        <label class="form-label">Rating (1–5)</label>
+                        <input asp-for="Rating" type="number" min="1" max="5" class="form-control" />
+                        <span asp-validation-for="Rating" class="text-danger"></span>
+                    </div>
+
+                  
+
+                </div>
+
+                <!-- SUBMIT -->
+                <div class="d-flex justify-content-end mt-3">
+                    <button type="submit" class="btn btn-primary px-4">
+                        @(Model.Complaint_Id == 0 ? "Submit Complaint" : "Update Complaint")
+                    </button>
+                </div>
+
+            </form>
+
+        </div>
+    </section>
+
+</main> *@

@@ -1,0 +1,415 @@
+﻿@model List<AVADH_PRIME_Consume.Models.HostelModel>
+
+@{
+    ViewData["Title"] = "Hostel List";
+}
+
+
+<style>
+    /* BOYS → BLUE */
+    .badge-boys {
+        background-color: #007bff;
+        color: #fff;
+    }
+
+    /* GIRLS → RED */
+    .badge-girls {
+        background-color: #dc3545;
+        color: #fff;
+    }
+
+    /* CO-ED → GREEN */
+    .badge-coed {
+        background-color: #28a745;
+        color: #fff;
+    }
+
+    #hostelTable thead th {
+        color: #5b1f17 !important;
+    }
+
+    /* TABLE CARD */
+    .card {
+        border-radius: 12px;
+        border: none;
+        box-shadow: 0 6px 18px rgba(0,0,0,0.15);
+        overflow: hidden;
+    }
+
+    /* TABLE HEADER */
+    #hostelTable thead {
+        background: linear-gradient(45deg, #5b1f17, #73271d);
+    }
+
+        #hostelTable thead th {
+            color: #fff;
+            font-weight: 600;
+            font-size: 14px;
+            padding: 14px;
+            border: none;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+    /* TABLE BODY */
+    #hostelTable tbody tr {
+        background-color: #fffaf5;
+        transition: all 0.2s ease;
+    }
+
+        /* STRIPED ROWS */
+        #hostelTable tbody tr:nth-child(even) {
+            background-color: #fde8d7;
+        }
+
+        /* HOVER EFFECT */
+        #hostelTable tbody tr:hover {
+            background-color: #f8d7c4;
+            transform: scale(1.002);
+        }
+
+    /* TABLE CELLS */
+    #hostelTable td {
+        padding: 12px;
+        font-size: 13px;
+        color: #333;
+        border-bottom: 1px solid #f1d2b8;
+    }
+
+    /* BADGES (STATUS) */
+    .badge.bg-success {
+        background-color: #28a745 !important;
+        font-size: 12px;
+        padding: 6px 10px;
+    }
+
+    .badge.bg-danger {
+        background-color: #dc3545 !important;
+        font-size: 12px;
+        padding: 6px 10px;
+    }
+
+    /* ACTION BUTTONS */
+    .btn-warning {
+        background-color: #f5c068;
+        border: none;
+        color: #5b1f17;
+        font-weight: 500;
+    }
+
+        .btn-warning:hover {
+            background-color: #e0a94f;
+        }
+
+    .btn-danger {
+        background-color: #5b1f17;
+        border: none;
+    }
+
+        .btn-danger:hover {
+            background-color: #73271d;
+        }
+
+    /* EMPTY DATA ROW */
+    tbody tr td[colspan] {
+        text-align: center;
+        font-weight: 500;
+        color: #5b1f17;
+        padding: 20px;
+    }
+
+
+
+
+
+    .main {
+        background-color: #f5c068;
+    }
+
+    .btn-circle {
+        width: 45px;
+        height: 45px;
+        background: #5b1f17;
+        color: white;
+        border-radius: 50%;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        text-decoration: none;
+        font-size: 24px;
+        box-shadow: 0 5px 15px rgba(0,0,0,0.2);
+        transition: 0.3s;
+    }
+
+        .btn-circle:hover {
+            background: #73271d;
+            transform: scale(1.08);
+            color: white;
+        }
+
+    .dashboard-header h1 {
+        color: #5b1f17;
+    }
+
+    .dashboard-header .breadcrumb-item,
+    .dashboard-header .breadcrumb-item a {
+        color: #5b1f17;
+    }
+
+        .dashboard-header .breadcrumb-item.active {
+            color: #5b1f17;
+        }
+
+    #studentSearch {
+        border: 1px solid #5b1f17;
+    }
+
+        #studentSearch:focus {
+            border-color: #5b1f17;
+            box-shadow: 0 0 0 0.2rem rgba(91, 31, 23, 0.25); /* soft outline glow */
+            outline: none;
+        }
+
+    /* SMALL ACTION BUTTONS */
+    .table .btn-sm {
+        padding: 2px 6px; /* reduce padding */
+        font-size: 11px; /* smaller icon/text */
+        line-height: 1;
+    }
+
+    /* OPTIONAL: PERFECT SQUARE ICON BUTTON */
+    .table .action-btn-sm {
+        width: 26px;
+        height: 26px;
+        padding: 0;
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 12px;
+    }
+</style>
+<main id="main" class="main">
+
+    <!-- HEADER -->
+    <div class="pagetitle d-flex align-items-center justify-content-between flex-wrap gap-2">
+
+       
+        <!-- LEFT -->
+        <div>
+            <h1 class="mb-1" style="color:#5b1f17;">Dashboard</h1>
+            <nav>
+                <ol class="breadcrumb mb-0" style="color:#5b1f17;">
+                    <li class="breadcrumb-item">
+                        <a href="index.html" style="color:#5b1f17;">Home</a>
+                    </li>
+                    <li class="breadcrumb-item active" style="color:#5b1f17;">
+                        🏠 Hostel Management
+                    </li>
+                </ol>
+            </nav>
+        </div>
+
+        <!-- SEARCH -->
+        <div class="flex-grow-1 px-3" style="max-width: 400px;">
+            <div class="position-relative">
+                <input type="text"
+                       id="hostelSearch"
+                       class="form-control pe-5"
+                       placeholder="Search hostel..." />
+                <span class="position-absolute top-50 end-0 translate-middle-y me-3 text-muted">
+                    🔍
+                </span>
+            </div>
+        </div>
+
+      
+        <!-- ADD BUTTON -->
+        <div>
+            <a asp-action="Add" class="btn-circle">
+                +
+            </a>
+        </div>
+
+    </div>
+
+    <!-- BODY -->
+    <section class="section dashboard">
+        <div class="row">
+
+            <div class="col-12">
+                <div class="card">
+
+                    <div class="card-body pt-3">
+
+                        <div class="table-responsive">
+
+                            <table class="table table-hover align-middle text-center" id="hostelTable">
+
+                                <thead >
+                                    <tr>
+                                        <th>ID</th>
+                                        <th>Name</th>
+                                        <th>Type</th>
+
+                                        <th>Rooms</th>
+                                        <th>Beds</th>
+
+                                        <th>Address</th>
+                                        <th>City</th>
+                                        <th>State</th>
+                                        <th>Pincode</th>
+
+                                        <th>Contact</th>
+                                        <th>Email</th>
+
+                                        <th>Rent</th>
+                                        <th>Deposit</th>
+
+                                        <th>Status</th>
+
+                                        <th>Created</th>
+                                        @* <th>Updated</th> *@
+
+                                        <th style="width:200px;">Action</th>
+                                    </tr>
+                                </thead>
+
+                                <tbody>
+                                    @if (Model != null && Model.Any())
+                                    {
+                                        foreach (var item in Model)
+                                        {
+                                            <tr class="hostel-row"
+                                                data-name="@item.Hostel_Name"
+                                                data-city="@item.City"
+                                                data-type="@item.Hostel_Type"
+                                                data-status="@(item.IsActive ? "Active" : "Inactive")">
+
+                                                <td>@item.Hostel_Id</td>
+
+                                                <td>@item.Hostel_Name</td>
+
+                                                <td>
+                                                    <span class="badge
+                                                       @(item.Hostel_Type == "Boys" ? "badge-boys" :
+                                                                    item.Hostel_Type == "Girls" ? "badge-girls" :
+                                                                    "badge-coed")">
+                                                @item.Hostel_Type
+                                                     </span>
+                                                </td>
+
+                                                <td>@item.Total_Rooms</td>
+
+                                                <td>@item.Total_Beds</td>
+
+                                                <td>@item.Address</td>
+
+                                                <td>@item.City</td>
+
+                                                <td>@item.State</td>
+
+                                                <td>@item.Pincode</td>
+
+                                                <td>@item.Contact_No</td>
+
+                                                <td>@item.Email</td>
+
+                                                <td>₹@item.Monthly_Rent</td>
+
+                                                <td>₹@item.Security_Deposit</td>
+
+                                                <td>
+                                                    <span class="badge @(item.IsActive ? "bg-success" : "bg-danger")">
+                                                        @(item.IsActive ? "Active" : "Inactive")
+                                                    </span>
+                                                </td>
+
+                                                <td>@item.CreatedAt.ToString("dd-MM-yyyy HH:mm")</td>
+
+                                                @* <td>
+                                                    @(item.UpdatedAt.HasValue
+                                                        ? item.UpdatedAt.Value.ToString("dd-MM-yyyy HH:mm")
+                                                        : "-")
+                                                </td> *@
+
+                                                <td>
+                                                    <a asp-action="Edit"
+                                                       asp-route-Hostel_Id="@item.Hostel_Id"
+                                                       class="btn btn-warning action-btn-sm">✏️</a>
+
+                                                    <form asp-action="Delete" method="post" style="display:inline;">
+                                                        @Html.AntiForgeryToken()
+                                                        <input type="hidden" name="Hostel_Id" value="@item.Hostel_Id" />
+                                                        <button type="submit"
+                                                                class="btn btn-danger action-btn-sm"
+                                                                onclick="return confirm('Delete this hostel?');">
+                                                            🗑
+                                                        </button>
+                                                    </form>
+                                                </td>
+
+                                            </tr>
+                                        }
+                                    }
+                                    else
+                                    {
+                                        <tr>
+                                            <td colspan="17">No hostel records found</td>
+                                        </tr>
+                                    }
+                                </tbody>
+
+                            </table>
+
+                        </div>
+
+                    </div>
+
+                </div>
+            </div>
+
+        </div>
+    </section>
+
+</main>
+
+
+
+@section Scripts {
+    <script>
+        function enableTableSearch(inputId, tableId) {
+
+            const input = document.getElementById(inputId);
+            const rows = document.querySelectorAll(`#${tableId} tbody tr`);
+
+            input.addEventListener("keyup", function () {
+
+                const filter = this.value.toLowerCase();
+
+                rows.forEach(row => {
+
+                    const text = row.innerText.toLowerCase();
+
+                    if (text.includes(filter)) {
+                        row.style.display = "";
+                    } else {
+                        row.style.display = "none";
+                    }
+
+                });
+
+            });
+        }
+
+        // ✅ Call for Hostel
+        enableTableSearch("hostelSearch", "hostelTable");
+
+        // ✅ Call for Attendance (example)
+        enableTableSearch("attendanceSearch", "attendanceTable");
+
+        // ✅ Call for Fees (example)
+        enableTableSearch("feesSearch", "feesTable");
+
+    </script>
+}
+

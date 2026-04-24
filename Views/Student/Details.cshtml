@@ -1,0 +1,153 @@
+﻿@model AVADH_PRIME_Consume.Models.StudentModel
+
+
+
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Student Profile</title>
+    <link href="~/css/stylesheet.css" rel="stylesheet" />
+    <style>
+        main{
+            background: #f5c068;
+
+        }
+    </style>
+</head>
+
+<body>
+
+    <main id="main" class="main">
+
+        <!-- HEADER -->
+        <div class="header-bar">
+            <div class="header-title">STUDENT DETAILS</div>
+
+            <div>
+                <a asp-action="Edit" asp-route-Student_Id="@Model.Student_Id" class="btn">EDIT</a>
+                <a asp-action="Index" class="btn">BACK</a>
+            </div>
+        </div>
+
+        <!-- GRID -->
+        <div class="main-grid">
+
+            <!-- STUDENT -->
+            <div class="box student-box">
+                <img src="@Url.Content("~" + Model.student_image)"
+                     class="circle-img"
+                     onerror="this.src='/images/no-image.png';" />
+
+                <div class="status">@Model.Status</div>
+                <div class="student-name">@Model.First_Name @Model.Last_Name</div>
+            </div>
+
+            <!-- ACADEMIC -->
+            <div class="box">
+                <div class="title">Academic Info</div>
+                <table class="kv">
+                    <tr><td class="key">Hostel</td><td class="colon">:</td><td class="value">@Model.H_Enrollment_No</td></tr>
+                    <tr><td class="key">University</td><td class="colon">:</td><td class="value">@Model.U_Enrollment_No</td></tr>
+                    <tr><td class="key">Course</td><td class="colon">:</td><td class="value">@Model.Course</td></tr>
+                    <tr><td class="key">Branch</td><td class="colon">:</td><td class="value">@Model.Branch</td></tr>
+                    <tr><td class="key">Semester</td><td class="colon">:</td><td class="value">@Model.Semester</td></tr>
+                    <tr><td class="key">College</td><td class="colon">:</td><td class="value">@Model.CollegeName</td></tr>
+                </table>
+            </div>
+
+            <!-- PERSONAL -->
+            <div class="box">
+                <div class="title">Personal Info</div>
+                <table class="kv">
+                    <tr><td class="key">ID</td><td class="colon">:</td><td class="value">@Model.Student_Id</td></tr>
+                    <tr><td class="key">Gender</td><td class="colon">:</td><td class="value">@Model.Gender</td></tr>
+                    <tr><td class="key">DOB</td><td class="colon">:</td><td class="value">@Model.DateOfBirth.ToString("dd-MM-yyyy")</td></tr>
+                    <tr><td class="key">Blood</td><td class="colon">:</td><td class="value">@Model.BloodGroup</td></tr>
+                </table>
+            </div>
+
+            <!-- FAMILY -->
+            <div class="box">
+                <div class="title">Family Info</div>
+                <table class="kv">
+                    <tr><td class="key">Father</td><td class="colon">:</td><td class="value">@Model.Father_Name</td></tr>
+                    <tr><td class="key">Mother</td><td class="colon">:</td><td class="value">@Model.Mother_Name</td></tr>
+                    <tr><td class="key">Phone</td><td class="colon">:</td><td class="value">@Model.Parent_Phone</td></tr>
+                </table>
+            </div>
+
+            <!-- ID -->
+            <div class="box id-box">
+                <div>
+                    <div class="title">ID Info</div>
+                    <table class="kv">
+                        <tr>
+                            <td class="key">@Model.ID_Proof_Type</td>
+                            <td class="colon">:</td>
+                            <td class="value">@Model.ID_Proof_No</td>
+                        </tr>
+                    </table>
+                </div>
+
+                <div class="doc-box">
+                    @if (!string.IsNullOrEmpty(Model.ID_Proof_Path))
+                    {
+                        <img src="@Url.Content("~" + Model.ID_Proof_Path)"
+                             onerror="this.src='/images/no-image.png';" />
+                    }
+                    else
+                    {
+                        <img src="/images/no-image.png" />
+                    }
+                </div>
+            </div>
+
+            <!-- CONTACT -->
+            <div class="box">
+                <div class="title">Contact Info</div>
+                <table class="kv">
+                    <tr><td class="key">Mobile</td><td class="colon">:</td><td class="value">@Model.Phone</td></tr>
+                    <tr><td class="key">Email</td><td class="colon">:</td><td class="value">@Model.Email</td></tr>
+                    <tr><td class="key">Emergency</td><td class="colon">:</td><td class="value">@Model.Emergency_Contact</td></tr>
+                </table>
+            </div>
+
+            <!-- STATUS -->
+            <div class="box">
+                <div class="title">Status</div>
+               
+                <table class="kv">
+                    
+                    <tr><td class="key ">Status</td><td class="colon">:</td><td class="value status">@Model.Status</td></tr>
+                    <tr><td class="key">Created</td><td class="colon">:</td><td class="value">@Model.CreatedAt.ToString("dd-MM-yyyy")</td></tr>
+                    <tr><td class="key">Updated</td><td class="colon">:</td><td class="value">@Model.UpdatedAt?.ToString("dd-MM-yyyy")</td></tr>
+                </table>
+            </div>
+
+            <!-- ADDRESS -->
+            <div class="box">
+                <div class="title">Address</div>
+                <table class="kv">
+                    <tr><td class="key">Address</td><td class="colon">:</td><td class="value">@Model.Address</td></tr>
+                    <tr><td class="key">City</td><td class="colon">:</td><td class="value">@Model.City</td></tr>
+                    <tr><td class="key">State</td><td class="colon">:</td><td class="value">@Model.State</td></tr>
+                    <tr><td class="key">Pincode</td><td class="colon">:</td><td class="value">@Model.Pincode</td></tr>
+                </table>
+            </div>
+
+            <!-- HOSTEL -->
+            <div class="box">
+                <div class="title">Hostel Info</div>
+                <table class="kv">
+                    <tr><td class="key">Hostel ID</td><td class="colon">:</td><td class="value">@Model.Hostel_Id</td></tr>
+                    <tr><td class="key">Admission</td><td class="colon">:</td><td class="value">@Model.AdmissionDate.ToString("dd-MM-yyyy")</td></tr>
+                </table>
+            </div>
+
+        </div>
+
+    </main>
+
+</body>
+</html>
+

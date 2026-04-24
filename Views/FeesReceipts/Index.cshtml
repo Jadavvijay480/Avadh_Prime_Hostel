@@ -1,0 +1,257 @@
+﻿@model List<AVADH_PRIME_Consume.Models.FeesReceiptsModel>
+
+@{
+    ViewData["Title"] = "Fees Receipts";
+}
+
+<style>
+    /* STATUS BADGES */
+    .badge-active {
+        background-color: #28a745;
+        color: #fff;
+    }
+
+    .badge-inactive {
+        background-color: #dc3545;
+        color: #fff;
+    }
+
+    /* TABLE CARD */
+    .card {
+        border-radius: 12px;
+        border: none;
+        box-shadow: 0 6px 18px rgba(0,0,0,0.15);
+        overflow: hidden;
+    }
+
+    /* HEADER */
+    #feesTable thead {
+        background: linear-gradient(45deg, #5b1f17, #73271d);
+    }
+
+        #feesTable thead th {
+            color: #fff;
+            font-weight: 600;
+            font-size: 14px;
+            padding: 14px;
+            border: none;
+            text-transform: uppercase;
+        }
+
+    /* BODY */
+    #feesTable tbody tr {
+        background-color: #fffaf5;
+        transition: 0.2s;
+    }
+
+        #feesTable tbody tr:nth-child(even) {
+            background-color: #fde8d7;
+        }
+
+        #feesTable tbody tr:hover {
+            background-color: #f8d7c4;
+            transform: scale(1.002);
+        }
+
+    #feesTable td {
+        padding: 12px;
+        font-size: 13px;
+        border-bottom: 1px solid #f1d2b8;
+    }
+
+    /* BUTTONS */
+    .btn-warning {
+        background-color: #f5c068;
+        border: none;
+        color: #5b1f17;
+    }
+
+        .btn-warning:hover {
+            background-color: #e0a94f;
+        }
+
+    .btn-danger {
+        background-color: #5b1f17;
+        border: none;
+    }
+
+        .btn-danger:hover {
+            background-color: #73271d;
+        }
+
+    /* ADD BUTTON */
+    .btn-circle {
+        width: 45px;
+        height: 45px;
+        background: #5b1f17;
+        color: white;
+        border-radius: 50%;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        text-decoration: none;
+        font-size: 24px;
+    }
+
+        .btn-circle:hover {
+            background: #73271d;
+            transform: scale(1.08);
+        }
+
+    /* SEARCH */
+    #feesSearch {
+        border: 1px solid #5b1f17;
+    }
+
+        #feesSearch:focus {
+            border-color: #5b1f17;
+            box-shadow: 0 0 0 0.2rem rgba(91, 31, 23, 0.25);
+        }
+
+    .main {
+        background-color: #f5c068;
+    }
+</style>
+
+<main class="main">
+
+    <!-- HEADER -->
+    <div class="pagetitle d-flex justify-content-between align-items-center flex-wrap gap-2">
+
+        <div>
+            <h1 style="color:#5b1f17;">Fees Dashboard</h1>
+            <ol class="breadcrumb">
+                <li class="breadcrumb-item">
+                    <a href="#" style="color:#5b1f17;">Home</a>
+                </li>
+                <li class="breadcrumb-item active" style="color:#5b1f17;">
+                    💰 Fees Receipts
+                </li>
+            </ol>
+        </div>
+
+        <!-- SEARCH -->
+        <div class="flex-grow-1 px-3" style="max-width: 400px;">
+            <input type="text" id="feesSearch" class="form-control"
+                   placeholder="Search receipt / student..." />
+        </div>
+
+        <!-- ADD BUTTON -->
+        <a asp-action="Add" class="btn-circle">+</a>
+
+    </div>
+
+    <!-- BODY -->
+    <section class="section dashboard">
+        <div class="row">
+
+            @if (TempData["Success"] != null)
+            {
+                <div class="alert alert-success">@TempData["Success"]</div>
+            }
+
+            @if (TempData["Error"] != null)
+            {
+                <div class="alert alert-danger">@TempData["Error"]</div>
+            }
+
+            <div class="col-12">
+                <div class="card">
+                    <div class="card-body pt-3">
+
+                        <div class="table-responsive">
+
+                            <table class="table text-center align-middle" id="feesTable">
+
+                                <thead>
+                                    <tr>
+                                        <th>ID</th>
+                                        <th>Student</th>
+                                        <th>Fees</th>
+                                        <th>Amount</th>
+                                        <th>Mode</th>
+                                        <th>Receipt</th>
+                                        <th>Date</th>
+                                        <th>Status</th>
+                                        <th>Action</th>
+                                    </tr>
+                                </thead>
+
+                                <tbody>
+                                    @if (Model != null && Model.Any())
+                                    {
+                                        foreach (var item in Model)
+                                        {
+                                            <tr>
+                                                <td>@item.Receipt_Id</td>
+                                                <td>@item.Student_Id</td>
+                                                <td>@item.Fees_Id</td>
+                                                <td>₹ @item.Paid_Amount</td>
+                                                <td>@item.Payment_Mode</td>
+                                                <td>@item.Receipt_No</td>
+                                                <td>@item.Payment_Date.ToString("dd-MM-yyyy")</td>
+
+                                                <td>
+                                                    <span class="badge @(item.IsActive ? "badge-active" : "badge-inactive")">
+                                                        @(item.IsActive ? "Active" : "Inactive")
+                                                    </span>
+                                                </td>
+
+                                                <td>
+                                                    <a asp-action="Edit"
+                                                       asp-route-Receipt_Id="@item.Receipt_Id"
+                                                       class="btn btn-warning btn-sm">✏️</a>
+
+                                                    <form asp-action="Delete" method="post" style="display:inline;">
+                                                        @Html.AntiForgeryToken()
+                                                        <input type="hidden" name="Receipt_Id" value="@item.Receipt_Id" />
+                                                        <button type="submit"
+                                                                class="btn btn-danger btn-sm"
+                                                                onclick="return confirm('Delete this record?');">
+                                                            🗑
+                                                        </button>
+                                                    </form>
+                                                </td>
+                                            </tr>
+                                        }
+                                    }
+                                    else
+                                    {
+                                        <tr>
+                                            <td colspan="9">No records found</td>
+                                        </tr>
+                                    }
+                                </tbody>
+
+                            </table>
+
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </section>
+
+</main>
+
+@section Scripts {
+    <script>
+        function enableTableSearch(inputId, tableId) {
+            const input = document.getElementById(inputId);
+            const rows = document.querySelectorAll(`#${tableId} tbody tr`);
+
+            input.addEventListener("input", function () {
+                const filter = this.value.toLowerCase();
+
+                rows.forEach(row => {
+                    const text = row.innerText.toLowerCase();
+                    row.style.display = text.includes(filter) ? "" : "none";
+                });
+            });
+        }
+
+        enableTableSearch("feesSearch", "feesTable");
+    </script>
+}

@@ -1,0 +1,370 @@
+﻿@model List<AVADH_PRIME_Consume.Models.FeesModel>
+
+@{
+    ViewData["Title"] = "Fees List";
+}
+
+<style>
+    .hidden {
+        display: none !important;
+    }
+    main {
+        font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+
+        background-color: #f5c068;
+    
+    }
+
+    /* CARD */
+    .id-card {
+        width: 100%;
+        max-width: 320px;
+        height: 580px;
+        background-color: #f5c068;
+        border-radius: 35px;
+        overflow: hidden;
+        box-shadow: 0 10px 25px rgba(0,0,0,0.1);
+        position: relative;
+    }
+
+    /* TOP */
+    .top-section {
+        height: 40%;
+        position: relative;
+        overflow: hidden;
+        border-bottom-left-radius: 70px;
+    }
+
+        .top-section img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+    .company-name {
+        position: absolute;
+        top: 12px;
+        left: 50%;
+        transform: translateX(-50%);
+        color: #fff;
+        font-size: 20px;
+        font-weight: bold;
+    }
+
+    /* BOTTOM (FLEX FIX) */
+    .bottom-section {
+        background-color: #5b1f17;
+        height: 60%;
+        color: white;
+        border-top-right-radius: 70px;
+        text-align: center;
+        display: flex; /* ✅ IMPORTANT */
+        flex-direction: column; /* ✅ STACK */
+        justify-content: space-between; /* ✅ PUSH ACTIONS DOWN */
+        padding-top: 70px;
+        padding-bottom: 15px;
+    }
+
+    /* CONTENT */
+    .info-container {
+        padding: 0 15px;
+        flex-grow: 1; /* ✅ TAKE SPACE */
+    }
+
+    /* ROW */
+    .row-info {
+        display: flex;
+        align-items: center;
+        margin-bottom: 8px;
+    }
+
+    /* KEY */
+    .key {
+        width: 130px; /* fixed spacing */
+        text-align: right;
+        font-size: 12px;
+        color: #ccc;
+        padding-right: 10px;
+    }
+
+    /* VALUE */
+    .value {
+        flex: 1;
+        text-align: left;
+        font-size: 13px;
+        font-weight: 600;
+    }
+    /* .row-info {
+        display: grid;
+        grid-template-columns: 45% 55%;
+        margin-bottom: 6px;
+    }
+
+    .key {
+        text-align: right;
+        font-size: 12px;
+        color: #ccc;
+    }
+
+    .value {
+        text-align: left;
+        font-size: 13px;
+        font-weight: 600;
+        padding-left: 8px;
+    } */
+
+    /* ACTIONS (BOTTOM FIXED BY FLEX) */
+    .actions {
+        display: flex;
+        justify-content: center;
+        gap: 10px;
+        margin-top: 30px; /* ✅ PUSH TO BOTTOM */
+    }
+
+    .action-btn {
+        width: 32px;
+        height: 32px;
+        border-radius: 50%;
+        color: #5b1f17;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        border: none;
+    }
+
+        .action-btn:hover {
+            transform: scale(1.1);
+        }
+
+    .view {
+        background: #f5c068;
+    }
+
+    .edit {
+        background: #f5c068;
+    }
+
+    .delete {
+        background: #f5c068;
+    }
+
+   
+
+      
+
+  
+
+    /* ADD BUTTON */
+    .btn-circle {
+        width: 45px;
+        height: 45px;
+        background: #5b1f17;
+        color: white;
+        border-radius: 50%;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        text-decoration: none;
+        font-size: 24px;
+        box-shadow: 0 5px 15px rgba(0,0,0,0.2);
+        transition: 0.3s;
+    }
+
+        .btn-circle:hover {
+            transform: scale(1.1);
+            background: #000;
+        }
+
+    .dashboard-header h1 {
+        color: #5b1f17;
+    }
+
+    .dashboard-header .breadcrumb-item,
+    .dashboard-header .breadcrumb-item a {
+        color: #5b1f17;
+    }
+
+        .dashboard-header .breadcrumb-item.active {
+            color: #5b1f17;
+        }
+
+    #studentSearch {
+        border: 1px solid #5b1f17;
+    }
+
+        #studentSearch:focus {
+            border-color: #5b1f17;
+            box-shadow: 0 0 0 0.2rem rgba(91, 31, 23, 0.25); /* soft outline glow */
+            outline: none;
+        }
+</style>
+
+<main id="main" class="main">
+
+    <!-- HEADER -->
+    <div class="pagetitle d-flex align-items-center justify-content-between flex-wrap gap-2">
+
+        <!-- LEFT -->
+        <div class="dashboard-header">
+            <h1 class="mb-1">Dashboard</h1>
+            <nav>
+                <ol class="breadcrumb mb-0">
+                    <li class="breadcrumb-item"><a href="#">Home</a></li>
+                    <li class="breadcrumb-item active">💰 Fees Management</li>
+                </ol>
+            </nav>
+        </div>
+
+    
+
+      
+        <!-- SEARCH -->
+        <div class="flex-grow-1 px-3" style="max-width: 400px;">
+            <div class="position-relative">
+                <input type="text"
+                       id="feesSearch"
+                       class="form-control pe-5"
+                       placeholder="Search student ID..." />
+
+                <span class="position-absolute top-50 end-0 translate-middle-y me-3 text-muted">
+                    🔍
+                </span>
+            </div>
+        </div>
+
+        <div>
+            <a asp-action="Add" class="btn-circle">+</a>
+        </div>
+
+    </div>
+
+    <!-- CONTENT -->
+    <section class="section dashboard">
+        <div class="row g-4 justify-content-center">
+
+            @foreach (var f in Model)
+            {
+                <!-- ✅ 3 CARDS PER ROW -->
+                <div class="col-12 col-sm-6 col-md-4 d-flex justify-content-center fees-item">
+
+                    <div class="id-card"
+                         data-student="@f.Student_Id"
+                         data-type="@f.Fee_Type"
+                         data-status="@f.Payment_Status"
+                         data-paid="@f.Paid_Amount"
+                         data-due="@f.Due_Amount">
+
+                        <!-- TOP -->
+                        <div class="top-section">
+                            <img src="https://images.unsplash.com/photo-1554224155-6726b3ff858f?w=800" />
+                            <div class="company-name">Avadh Prime</div>
+                        </div>
+
+                        <!-- BOTTOM -->
+                        <div class="bottom-section">
+
+                            <div class="info-container">
+
+                                <div class="row-info">
+                                    <div class="key">Student ID :</div>
+                                    <div class="value">@f.Student_Id</div>
+                                </div>
+
+                                <div class="row-info">
+                                    <div class="key">Fee Type :</div>
+                                    <div class="value">@f.Fee_Type</div>
+                                </div>
+
+                                <div class="row-info">
+                                    <div class="key">Paid :</div>
+                                    <div class="value">₹@f.Paid_Amount</div>
+                                </div>
+
+                                <div class="row-info">
+                                    <div class="key">Due :</div>
+                                    <div class="value">₹@f.Due_Amount</div>
+                                </div>
+
+                                <div class="row-info">
+                                    <div class="key">Status :</div>
+                                    <div class="value">
+                                        @(f.Payment_Status == "Paid" ? "🟢 Paid" : "🔴 Due")
+                                    </div>
+                                </div>
+
+                                <div class="row-info">
+                                    <div class="key">Late Fine :</div>
+                                    <div class="value">
+                                        @(f.Late_Fine > 0 ? "₹" + f.Late_Fine : "No Fine")
+                                    </div>
+                                </div>
+
+                                <!-- ✅ ACTIONS INSIDE -->
+                                <div class="actions">
+
+                                    <a asp-action="Details"
+                                       asp-route-Fees_Id="@f.Fees_Id"
+                                       class="action-btn view">
+                                        <i class="bi bi-eye"></i>
+                                    </a>
+
+                                    <a asp-action="Edit"
+                                       asp-route-Fees_Id="@f.Fees_Id"
+                                       class="action-btn edit">
+                                        <i class="bi bi-pencil"></i>
+                                    </a>
+
+                                    <form asp-action="Delete" method="post">
+                                        @Html.AntiForgeryToken()
+                                        <input type="hidden" name="Fees_Id" value="@f.Fees_Id" />
+
+                                        <button type="submit"
+                                                class="action-btn delete"
+                                                onclick="return confirm('Delete fees?');">
+                                            <i class="bi bi-trash"></i>
+                                        </button>
+                                    </form>
+
+                                </div>
+
+                            </div>
+
+                        </div>
+
+                    </div>
+
+                </div>
+                        }
+
+        </div>
+    </section>
+
+</main>
+
+<script>
+    document.addEventListener("DOMContentLoaded", function () {
+
+        const searchInput = document.getElementById("feesSearch");
+        const cards = document.querySelectorAll(".fees-item");
+
+        searchInput.addEventListener("input", function () {
+
+            const query = this.value.toLowerCase().trim();
+
+            cards.forEach(item => {
+
+                const card = item.querySelector(".id-card");
+
+                const studentId = (card.dataset.student || "").toLowerCase();
+
+                const match = studentId.includes(query);
+
+                item.classList.toggle("hidden", !match);
+
+            });
+
+        });
+
+    });
+</script>
+

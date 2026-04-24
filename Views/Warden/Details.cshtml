@@ -1,0 +1,363 @@
+﻿
+
+@model AVADH_PRIME_Consume.Models.WardenModel
+
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Warden Profile</title>
+    <link href="~/css/stylesheet.css" rel="stylesheet" />
+</head>
+
+<body>
+
+    <main id="main" class="main">
+
+        <!-- HEADER -->
+        <div class="header-bar">
+            <div class="header-title">WARDEN DETAILS</div>
+
+            <div>
+                <a asp-action="Edit"
+                   asp-route-Warden_Id="@Model.Warden_Id"
+                   class="btn">EDIT</a>
+
+                <a asp-action="Index" class="btn">BACK</a>
+            </div>
+        </div>
+
+        <!-- GRID -->
+        <div class="main-grid">
+
+            <!-- 1: PROFILE -->
+            <div class="box student-box">
+                <img src="@(string.IsNullOrEmpty(Model.Warden_Image)
+                                     ? "/images/no-image.png"
+                                     : Model.Warden_Image.StartsWith("/")
+                                         ? Model.Warden_Image
+                                         : "/" + Model.Warden_Image)"
+                     class="circle-img"
+                     onerror="this.src='/images/no-image.png';" />
+
+                <div class="student-name">
+                    @Model.First_Name @Model.Last_Name
+                </div>
+
+                <div class="status">
+                    @(Model.IsActive ? "Active" : "Inactive")
+                </div>
+            </div>
+
+            <!-- 2: BASIC -->
+            <div class="box">
+                <div class="title">Basic Info</div>
+                <table class="kv">
+                    <tr><td class="key">ID</td><td class="colon">:</td><td class="value">@Model.Warden_Id</td></tr>
+                    <tr><td class="key">Code</td><td class="colon">:</td><td class="value">@Model.Warden_Code</td></tr>
+                    <tr><td class="key">Gender</td><td class="colon">:</td><td class="value">@Model.Gender</td></tr>
+                    <tr>
+                        <td class="key">DOB</td>
+                        <td class="colon">:</td>
+                        <td class="value">
+                            @(Model.DateOfBirth == default ? "-" : Model.DateOfBirth.ToString("dd-MM-yyyy"))
+                        </td>
+                    </tr>
+                    <tr><td class="key">Blood</td><td class="colon">:</td><td class="value">@Model.BloodGroup</td></tr>
+                </table>
+            </div>
+
+            <!-- 3: CONTACT -->
+            <div class="box">
+                <div class="title">Contact Info</div>
+                <table class="kv">
+                    <tr><td class="key">Phone</td><td class="colon">:</td><td class="value">@Model.Phone</td></tr>
+                    <tr><td class="key">Email</td><td class="colon">:</td><td class="value">@Model.Email</td></tr>
+                    <tr><td class="key">Emergency</td><td class="colon">:</td><td class="value">@Model.Emergency_Contact</td></tr>
+                </table>
+            </div>
+
+            <!-- 4: ADDRESS -->
+            <div class="box">
+                <div class="title">Address</div>
+                <table class="kv">
+                    <tr><td class="key">Address</td><td class="colon">:</td><td class="value">@Model.Address</td></tr>
+                    <tr><td class="key">City</td><td class="colon">:</td><td class="value">@Model.City</td></tr>
+                    <tr><td class="key">State</td><td class="colon">:</td><td class="value">@Model.State</td></tr>
+                    <tr><td class="key">Pincode</td><td class="colon">:</td><td class="value">@Model.Pincode</td></tr>
+                </table>
+            </div>
+
+            <!-- 5: PROFESSIONAL -->
+            <div class="box">
+                <div class="title">Professional</div>
+                <table class="kv">
+                    <tr><td class="key">Qualification</td><td class="colon">:</td><td class="value">@Model.Qualification</td></tr>
+                    <tr><td class="key">Experience</td><td class="colon">:</td><td class="value">@Model.Experience_Years Years</td></tr>
+                    <tr><td class="key">Salary</td><td class="colon">:</td><td class="value">₹@Model.Salary</td></tr>
+                    <tr>
+                        <td class="key">Joining</td>
+                        <td class="colon">:</td>
+                        <td class="value">
+                            @(Model.JoiningDate == default ? "-" : Model.JoiningDate.ToString("dd-MM-yyyy"))
+                        </td>
+                    </tr>
+                </table>
+            </div>
+
+            <!-- 6: HOSTEL -->
+            <div class="box">
+                <div class="title">Hostel</div>
+                <table class="kv">
+                    <tr><td class="key">Hostel ID</td><td class="colon">:</td><td class="value">@Model.Hostel_Id</td></tr>
+                </table>
+            </div>
+
+            <!-- 7: ID PROOF -->
+            <div class="box id-box">
+                <div>
+                    <div class="title">ID Proof</div>
+                    <table class="kv">
+                        <tr><td class="key">Type</td><td class="colon">:</td><td class="value">@Model.ID_Proof_Type</td></tr>
+                        <tr><td class="key">Number</td><td class="colon">:</td><td class="value">@Model.ID_Proof_No</td></tr>
+                    </table>
+                </div>
+
+                <div class="doc-box">
+                    @if (!string.IsNullOrEmpty(Model.ID_Proof_Path))
+                    {
+                        <img src="@Model.ID_Proof_Path"
+                             onerror="this.src='/images/no-image.png';" />
+                    }
+                    else
+                    {
+                        <img src="/images/no-image.png" />
+                    }
+                </div>
+            </div>
+
+            <!-- 8: STATUS -->
+            <div class="box">
+                <div class="title">Status</div>
+                <table class="kv">
+                    <tr><td class="key">Active</td><td class="colon">:</td><td class="value">@((Model.IsActive) ? "Yes" : "No")</td></tr>
+                    <tr><td class="key">Status</td><td class="colon">:</td><td class="value">@Model.Status</td></tr>
+                </table>
+            </div>
+
+            <!-- 9: AUDIT -->
+            <div class="box">
+                <div class="title">Audit</div>
+                <table class="kv">
+                    <tr>
+                        <td class="key">Created</td>
+                        <td class="colon">:</td>
+                        <td class="value">
+                            @(Model.CreatedAt == default ? "-" : Model.CreatedAt.ToString("dd-MM-yyyy HH:mm"))
+                        </td>
+                    </tr>
+                    <tr>
+                        <td class="key">Updated</td>
+                        <td class="colon">:</td>
+                        <td class="value">
+                            @(Model.UpdatedAt?.ToString("dd-MM-yyyy HH:mm") ?? "-")
+                        </td>
+                    </tr>
+                </table>
+            </div>
+
+        </div>
+
+    </main>
+
+</body>
+</html>
+
+
+
+@* @model AVADH_PRIME_Consume.Models.WardenModel
+
+<main id="main" class="main">
+
+    <!-- HEADER -->
+    <div class="pagetitle d-flex justify-content-between align-items-center">
+        <div>
+            <h1>👨‍💼 Warden Details</h1>
+            <nav>
+                <ol class="breadcrumb mb-0">
+                    <li class="breadcrumb-item"><a asp-action="Index">Home</a></li>
+                    <li class="breadcrumb-item active">Warden Profile</li>
+                </ol>
+            </nav>
+        </div>
+
+        <div>
+            <a asp-action="Edit"
+               asp-route-Warden_Id="@Model.Warden_Id"
+               class="btn btn-warning">✏️ Edit</a>
+
+            <a asp-action="Index" class="btn btn-secondary">⬅ Back</a>
+        </div>
+    </div>
+
+    <!-- CONTENT -->
+    <section class="section dashboard pt-2">
+
+        <div class="card shadow-sm p-4">
+
+            <!-- TOP -->
+            <div class="row align-items-center mb-4">
+
+                <!-- IMAGE -->
+                <div class="col-md-3 text-center">
+                    <img src="@(string.IsNullOrEmpty(Model.Warden_Image)
+                                                         ? "/images/no-image.png"
+                                                         : Model.Warden_Image.StartsWith("/")
+                                                             ? Model.Warden_Image
+                                                             : "/" + Model.Warden_Image)"
+                         class="rounded-circle border"
+                         style="width:130px;height:130px;object-fit:cover;"
+                         onerror="this.src='/images/no-image.png';" />
+                </div>
+
+                <!-- BASIC -->
+                <div class="col-md-9">
+                    <h2 class="fw-bold">@Model.First_Name @Model.Last_Name</h2>
+
+                    <span class="badge @(Model.IsActive ? "bg-success" : "bg-danger")">
+                        @(Model.IsActive ? "Active" : "Inactive")
+                    </span>
+
+                    <div class="card p-3 mt-3 bg-light">
+                        <h5>📌 Basic Info</h5>
+
+                        <div class="row">
+                            <div class="col-md-4"><strong>ID:</strong> @Model.Warden_Id</div>
+                            <div class="col-md-4"><strong>Code:</strong> @Model.Warden_Code</div>
+                            <div class="col-md-4"><strong>Gender:</strong> @Model.Gender</div>
+
+                            <div class="col-md-4">
+                                <strong>DOB:</strong>
+                                @(Model.DateOfBirth == default ? "-" : Model.DateOfBirth.ToString("dd-MM-yyyy"))
+                            </div>
+
+                            <div class="col-md-4"><strong>Blood:</strong> @Model.BloodGroup</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- ROW 1 -->
+            <div class="row">
+
+                <!-- CONTACT -->
+                <div class="col-md-4">
+                    <div class="card p-3 mb-3 shadow-sm">
+                        <h6>📞 Contact</h6>
+                        <p><strong>Phone:</strong> @Model.Phone</p>
+                        <p><strong>Email:</strong> @Model.Email</p>
+                        <p><strong>Emergency:</strong> @Model.Emergency_Contact</p>
+                    </div>
+                </div>
+
+                <!-- ADDRESS -->
+                <div class="col-md-4">
+                    <div class="card p-3 mb-3 shadow-sm">
+                        <h6>📍 Address</h6>
+                        <p>@Model.Address</p>
+                        <p>@Model.City, @Model.State</p>
+                        <p>@Model.Pincode</p>
+                    </div>
+                </div>
+
+                <!-- PROFESSIONAL -->
+                <div class="col-md-4">
+                    <div class="card p-3 mb-3 shadow-sm">
+                        <h6>🎓 Professional</h6>
+                        <p><strong>Qualification:</strong> @Model.Qualification</p>
+                        <p><strong>Experience:</strong> @Model.Experience_Years Years</p>
+                        <p><strong>Salary:</strong> ₹@Model.Salary</p>
+                        <p>
+                            <strong>Joining:</strong>
+                            @(Model.JoiningDate == default ? "-" : Model.JoiningDate.ToString("dd-MM-yyyy"))
+                        </p>
+                    </div>
+                </div>
+
+            </div>
+
+            <!-- ROW 2 -->
+            <div class="row">
+
+                <!-- HOSTEL -->
+                <div class="col-md-4">
+                    <div class="card p-3 mb-3 shadow-sm">
+                        <h6>🏠 Hostel</h6>
+                        <p><strong>Hostel ID:</strong> @Model.Hostel_Id</p>
+                    </div>
+                </div>
+
+                <!-- ID PROOF -->
+                <div class="col-md-4">
+                    <div class="card p-3 mb-3 shadow-sm">
+                        <h6>🆔 ID Proof</h6>
+                        <p><strong>Type:</strong> @Model.ID_Proof_Type</p>
+                        <p><strong>No:</strong> @Model.ID_Proof_No</p>
+
+                        @if (!string.IsNullOrEmpty(Model.ID_Proof_Path))
+                        {
+                            <a href="@Model.ID_Proof_Path" target="_blank">
+                                <img src="@Model.ID_Proof_Path"
+                                     class="img-fluid border rounded mt-2"
+                                     style="max-height:200px;object-fit:contain;"
+                                     onerror="this.src='/images/no-image.png';" />
+                            </a>
+                        }
+                        else
+                        {
+                            <img src="/images/no-image.png"
+                                 class="img-fluid border rounded mt-2"
+                                 style="max-height:200px;" />
+                        }
+                    </div>
+                </div>
+
+                <!-- STATUS -->
+                <div class="col-md-4">
+                    <div class="card p-3 mb-3 shadow-sm">
+                        <h6>⚙ Status</h6>
+                        <p><strong>Active:</strong> @(Model.IsActive ? "Yes" : "No")</p>
+                        <p><strong>Status:</strong> @Model.Status</p>
+                    </div>
+                </div>
+
+            </div>
+
+            <!-- FOOTER -->
+            <div class="card p-3 mt-3 bg-light">
+                <div class="row">
+                    <div class="col-md-6">
+                        <p>
+                            <strong>Created:</strong>
+                            @(Model.CreatedAt == default ? "-" : Model.CreatedAt.ToString("dd-MM-yyyy HH:mm"))
+                        </p>
+                    </div>
+
+                    <div class="col-md-6">
+                        <p>
+                            <strong>Updated:</strong>
+                            @(Model.UpdatedAt.HasValue
+                                                        ? Model.UpdatedAt.Value.ToString("dd-MM-yyyy HH:mm")
+                                                        : "-")
+                        </p>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+
+    </section>
+
+</main> *@
+
+
+
